@@ -2,8 +2,9 @@
 
 namespace App\Backoffice\Product\Infraestructure\Repository;
 
-use App\Backoffice\Product\Domain\Port\ProductRepository;
-use App\Backoffice\Product\Domain\Product;
+
+use App\Backoffice\Products\Domain\Port\ProductRepository;
+use App\Backoffice\Products\Domain\Product;
 
 final class ProductRepositoryInMemory implements ProductRepository
 {
@@ -23,5 +24,12 @@ final class ProductRepositoryInMemory implements ProductRepository
         }
 
         return null;
+    }
+
+    public function delete(Product $product): void
+    {
+        self::$products = array_filter(self::$products, function (Product $p) use ($product) {
+            return $p->getId() !== $product->getId();
+        });
     }
 }
