@@ -10,4 +10,6 @@ interface ProductRepository
     public function save(Product $product): void;
 
     public function search(string $id): ?Product;
+
+    public function delete(Product $product): void;
 }

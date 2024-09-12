@@ -3,6 +3,7 @@
 namespace App\Backoffice\Products\Domain;
 
 use App\Backoffice\Products\Domain\Event\ProductCreatedEvent;
+use App\Backoffice\Products\Domain\Event\ProductDeletedEvent;
 use App\Backoffice\Products\Domain\ValueObject\ProductDescription;
 use App\Backoffice\Products\Domain\ValueObject\ProductImage;
 use App\Backoffice\Products\Domain\ValueObject\ProductName;
@@ -11,6 +12,8 @@ use App\Backoffice\Products\Domain\ValueObject\ProductTotalSales;
 use App\Shared\Domain\AggregateRoot;
 use App\Shared\Domain\Identifier\ProductId;
 use App\Shared\Domain\Identifier\UserId;
+use App\Shared\Domain\ValueObject\DateTimeValueObject;
+use DateTimeImmutable;
 
 class Product extends AggregateRoot
 {
@@ -21,6 +24,7 @@ class Product extends AggregateRoot
     private readonly ?ProductImage $image;
     private readonly ?ProductTotalSales $totalSales;
     private readonly ?UserId $creator;
+    private DateTimeValueObject $deletedAt;
 
     protected function __construct(
         ?ProductId          $id = null,
@@ -74,6 +78,17 @@ class Product extends AggregateRoot
     public function getCreatorId()
     {
         return $this->creator->value();
+    }
+
+    public function isDeleted(): bool
+    {
+        return $this->deletedAt->value() !== null;
+    }
+
+    public function delete(): void
+    {
+        $this->deletedAt = DateTimeValueObject::create(new DateTimeImmutable());
+        $this->record(new ProductDeletedEvent());
     }
 
     public function toPrimitives(): array
