@@ -4,7 +4,7 @@ namespace App\Backoffice\Products\Application\Create;
 
 class CreateProductCommand
 {
-    public function __construct(
+    private function __construct(
         public readonly string $name,
         public readonly string $description,
         public readonly string $image,
@@ -12,5 +12,16 @@ class CreateProductCommand
         public readonly string $creatorId,
     )
     {
+    }
+
+    public static function create(
+        string $name,
+        string $description,
+        string $image,
+        float $price,
+        string $creatorId,
+    ): self
+    {
+        return new self($name, $description, $image, $price, $creatorId);
     }
 }
