@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Shared\Domain\ValueObject;
 
 
-use App\Shared\Domain\Exception\InvalidArgumentException;
+use App\Shared\Domain\Exceptions\InvalidArgumentException;
 use Random\RandomException;
 
 /**
@@ -46,7 +46,7 @@ abstract class UuidValueObject
     public function ensureValueIsValid(string $value): void
     {
         if (strlen($value) !== 36) {
-            throw new InvalidArgumentException(sprintf('Value "%s" is not a valid UUID string', $this->value));
+            throw new InvalidArgumentException(sprintf('Value "%s" is not a valid UUID string', $value));
         }
     }
 

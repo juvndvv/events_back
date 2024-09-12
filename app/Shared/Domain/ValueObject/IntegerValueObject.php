@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Shared\Domain\ValueObject;
 
 
-use App\Shared\Domain\Exception\InvalidArgumentException;
+
+use App\Shared\Domain\Exceptions\InvalidArgumentException;
 
 /**
  * Class IntegerValueObject
@@ -46,7 +47,7 @@ abstract class IntegerValueObject
      */
     protected function ensureIsValid(int $value, ?int $min, ?int $max): void
     {
-        if ($value <= $min && $value >= $max) {
+        if ($value < $min ?? PHP_INT_MIN && $value > $max ?? PHP_INT_MAX) {
             throw new InvalidArgumentException(sprintf('Value "%s" is out of range [%s, %s]', $value, $min, $max));
         }
 

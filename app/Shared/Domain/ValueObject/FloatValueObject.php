@@ -46,7 +46,7 @@ abstract class FloatValueObject
      */
     protected function ensureIsValid(float $value, ?float $min, ?float $max, ?int $decimals): void
     {
-        if ($value <= $min || $value >= $max) {
+        if ($value <= $min ?? PHP_FLOAT_MIN || $value >= $max ?? PHP_FLOAT_MAX) {
             throw new InvalidArgumentException(sprintf('Value "%s" is out of range [%s, %s]', $value, $min, $max));
         }
 
