@@ -1,6 +1,6 @@
 <?php
 
-namespace Stub\Backoffice\Product;
+namespace Stub;
 
 use App\Backoffice\Products\Domain\Product;
 use App\Backoffice\Products\Domain\ValueObject\ProductDescription;
@@ -11,9 +11,9 @@ use App\Backoffice\Products\Domain\ValueObject\ProductTotalSales;
 use App\Shared\Domain\Identifier\ProductId;
 use App\Shared\Domain\Identifier\UserId;
 
-class ProductStub extends Product
+class ProductMother extends Product
 {
-    public function __construct(
+    public static function son(
         ?int $id = null,
         ?string $name = null,
         ?string $description = null,
@@ -21,9 +21,8 @@ class ProductStub extends Product
         ?int $price = null,
         ?int $totalSales = null,
         ?string $userId = null,
-    )
-    {
-        parent::__construct(
+    ): Product {
+        return parent::__construct(
             id: $id ?: ProductId::generate(),
             name: $name ?: ProductName::create(uniqid('product_name-')),
             description: $description ?: ProductDescription::create(uniqid('product_description-')),
