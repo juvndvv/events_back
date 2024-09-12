@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
     laravel.test:
         build:
@@ -17,12 +19,15 @@ services:
             XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
             XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
             IGNITION_LOCAL_SITES_PATH: '${PWD}'
+            KAFKA_BROKER: 'kafka:9092'
         volumes:
             - '.:/var/www/html'
         networks:
             - sail
         depends_on:
             - mysql
+            - kafka
+
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
@@ -47,9 +52,28 @@ services:
                 - '-p${DB_PASSWORD}'
             retries: 3
             timeout: 5s
+
+    zookeeper:
+        image: wurstmeister/zookeeper
+        ports:
+            - '2181:2181'
+
+    kafka:
+        image: wurstmeister/kafka
+        ports:
+            - '9092:9092'
+        environment:
+            KAFKA_ADVERTISED_HOST_NAME: kafka
+            KAFKA_CREATE_TOPICS: "test:1:1"
+            KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+
+
 networks:
     sail:
         driver: bridge
+
 volumes:
     sail-mysql:
         driver: local
