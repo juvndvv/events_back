@@ -38,14 +38,7 @@ class ProductFinderTest extends TestCase
 
     public function testItShouldReturnProduct(): void
     {
-        // Arrange
-        $name = ProductName::create('Product Name');
-        $description = ProductDescription::create('Product Description');
-        $image = ProductImage::create('https://example.com/product-image.jpg');
-        $price = ProductPrice::create(100);
-        $creatorId = UserId::generate();
-
-        $product = Product::create($name, $description, $image, $price, $creatorId);
+        $product = ProductMother::son();
 
         $this->repository->expects($this->once())
             ->method('search')

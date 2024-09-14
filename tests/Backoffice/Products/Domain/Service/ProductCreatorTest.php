@@ -14,6 +14,7 @@ use App\Backoffice\Products\Domain\ValueObject\ProductPrice;
 use App\Shared\Domain\Identifier\UserId;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
+use Tests\Stub\ProductMother;
 use Tests\TestCase;
 
 #[Group('domain')]
@@ -42,12 +43,10 @@ class ProductCreatorTest extends TestCase
         $price = ProductPrice::create(100);
         $creatorId = UserId::generate();
 
-        $product = Product::create($name, $description, $image, $price, $creatorId);
-
         $this->finder
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(null); // El producto no existe aún.
+            ->willReturn(null);
 
         $this->repository
             ->expects($this->once())
@@ -58,11 +57,11 @@ class ProductCreatorTest extends TestCase
         $createdProduct = $this->productCreator->__invoke($name, $description, $image, $price, $creatorId);
 
         // Assert
-        $this->assertEquals($product->getName(), $createdProduct->getName());
-        $this->assertEquals($product->getDescription(), $createdProduct->getDescription());
-        $this->assertEquals($product->getImage(), $createdProduct->getImage());
-        $this->assertEquals($product->getPrice(), $createdProduct->getPrice());
-        $this->assertEquals($product->getCreatedBy(), $createdProduct->getCreatedBy());
+        $this->assertEquals($name->value(), $createdProduct->getName());
+        $this->assertEquals($description->value(), $createdProduct->getDescription());
+        $this->assertEquals($image->value(), $createdProduct->getImage());
+        $this->assertEquals($price->value(), $createdProduct->getPrice());
+        $this->assertEquals($creatorId->value(), $createdProduct->getCreatedBy());
     }
 
     public function testItShouldThrowExceptionWhenProductAlreadyExists(): void
@@ -74,12 +73,12 @@ class ProductCreatorTest extends TestCase
         $price = ProductPrice::create(100);
         $creatorId = UserId::generate();
 
-        $existingProduct = Product::create($name, $description, $image, $price, $creatorId);
+        $existingProduct = ProductMother::son();
 
         $this->finder
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn($existingProduct); // El producto ya existe.
+            ->willReturn($existingProduct);
 
         // Assert
         $this->expectException(ProductAlreadyExists::class);
