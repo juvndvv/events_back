@@ -28,7 +28,13 @@ class ProductMother extends Product
         ?int $createdBy = null,
         ?int $updatedBy = null,
         ?int $deletedBy = null,
+        ?bool $deleted = false,
     ): Product {
+        if ($deleted || $deletedAt || $deletedBy) {
+            $deletedBy = $deletedBy ?? UserId::generate();
+            $deletedAt = $deletedAt ?? DateTimeValueObject::create(new DateTimeImmutable());
+        }
+
         return new parent(
             id: $id ? ProductId::create($id) : ProductId::generate(),
             name: $name ? ProductName::create($name) : ProductName::create(uniqid('product_name-')),
@@ -40,8 +46,8 @@ class ProductMother extends Product
             createdAt:  $createdAt ? DateTimeValueObject::create($createdAt) : DateTimeValueObject::create(new DateTimeImmutable()),
             updatedBy: $updatedBy ? UserId::create($updatedBy) : UserId::generate(),
             updatedAt: $updatedAt ? DateTimeValueObject::create($updatedAt) : DateTimeValueObject::create(new DateTimeImmutable()),
-            deletedBy: $deletedBy ? UserId::create($deletedBy) : UserId::generate(),
-            deletedAt: $deletedAt ? DateTimeValueObject::create($deletedAt) : DateTimeValueObject::create(new DateTimeImmutable()),
+            deletedBy: $deletedBy,
+            deletedAt: $deletedAt,
         );
     }
 }

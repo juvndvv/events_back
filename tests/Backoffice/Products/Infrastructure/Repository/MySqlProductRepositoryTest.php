@@ -3,6 +3,7 @@
 namespace Tests\Backoffice\Products\Infrastructure\Repository;
 
 use App\Backoffice\Products\Infraestructure\Repository\MySqlProductRepository;
+use Illuminate\Support\Facades\DB;
 use PHPUnit\Framework\Attributes\Group;
 use Tests\DbTestCase;
 use Tests\Stub\ProductMother;
@@ -24,27 +25,14 @@ class MySqlProductRepositoryTest extends DbTestCase
 
         $this->repository->save($product);
 
-        $this->assertDatabaseHas('products', [
-            'id' => $product->getId(),
-            'name' => $product->getName(),
-            'description' => $product->getDescription(),
-            'image' => $product->getImage(),
-            'price' => $product->getPrice(),
-            'total_sales' => $product->getTotalSales(),
-            'created_by' => $product->getCreatedBy(),
-            'created_at' => $product->getCreatedAt(),
-            'updated_by' => $product->getUpdatedBy(),
-            'updated_at' => $product->getUpdatedAt(),
-            'deleted_by' => $product->getDeletedBy(),
-            'deleted_at' => $product->getDeletedAt(),
-        ]);
+        $this->assertDatabaseHas('products', $product->toPrimitives());
     }
 
     public function testItShouldDelete(): void
     {
         $product = ProductMother::son();
 
-        $this->repository->save($product);
+        DB::table('products')->insert($product->toPrimitives());
 
         $this->repository->delete($product);
 
@@ -60,22 +48,12 @@ class MySqlProductRepositoryTest extends DbTestCase
     public function testItShouldReturnProductOnSearch(): void
     {
         $product = ProductMother::son();
-        $this->repository->save($product);
+
+        DB::table('products')->insert($product->toPrimitives());
 
         $result = $this->repository->search($product->getId());
 
-        $this->assertEquals($product->getId(), $result->getId());
-        $this->assertEquals($product->getName(), $result->getName());
-        $this->assertEquals($product->getDescription(), $result->getDescription());
-        $this->assertEquals($product->getImage(), $result->getImage());
-        $this->assertEquals($product->getPrice(), $result->getPrice());
-        $this->assertEquals($product->getTotalSales(), $result->getTotalSales());
-        $this->assertEquals($product->getCreatedBy(), $result->getCreatedBy());
-        $this->assertEquals($product->getCreatedAt(), $result->getCreatedAt());
-        $this->assertEquals($product->getUpdatedBy(), $result->getUpdatedBy());
-        $this->assertEquals($product->getUpdatedAt(), $result->getUpdatedAt());
-        $this->assertEquals($product->getDeletedBy(), $result->getDeletedBy());
-        $this->assertEquals($product->getDeletedAt(), $result->getDeletedAt());
+        $this->assertEquals($product->toPrimitives(), $result->toPrimitives());
     }
 
     public function testItShouldUpdateProduct()
@@ -83,7 +61,8 @@ class MySqlProductRepositoryTest extends DbTestCase
         $product = ProductMother::son();
         $updatedProduct = ProductMother::son(id: $product->getId());
 
-        $this->repository->save($product);
+        DB::table('products')->insert($product->toPrimitives());
+
         $this->repository->update($updatedProduct);
 
         $this->assertDatabaseHas('products', $updatedProduct->toPrimitives());

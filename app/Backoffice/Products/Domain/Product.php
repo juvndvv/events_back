@@ -51,19 +51,19 @@ class Product extends AggregateRoot
         ?DateTimeValueObject $deletedAt = null
     )
     {
-        $this->id = $id;
-        $this->name = $name;
-        $this->description = $description;
-        $this->image = $image;
-        $this->price = $price;
-        $this->totalSales = $totalSales;
+        !$id ?: $this->id = $id;
+        !$name ?: $this->name = $name;
+        !$description ?: $this->description = $description;
+        !$image ?: $this->image = $image;
+        !$price ?: $this->price = $price;
+        !$totalSales ?: $this->totalSales = $totalSales;
 
-        $this->createdBy = $createdBy;
-        $this->createdAt = $createdAt;
-        $this->updatedBy = $updatedBy;
-        $this->updatedAt = $updatedAt;
-        $this->deletedBy = $deletedBy;
-        $this->deletedAt = $deletedAt;
+        !$createdBy ?: $this->createdBy = $createdBy;
+        !$createdAt ?: $this->createdAt = $createdAt;
+        !$updatedBy ?: $this->updatedBy = $updatedBy;
+        !$updatedAt ?: $this->updatedAt = $updatedAt;
+        !$deletedBy ?: $this->deletedBy = $deletedBy;
+        !$deletedAt ?: $this->deletedAt = $deletedAt;
     }
 
     public function getId(): string
@@ -108,22 +108,34 @@ class Product extends AggregateRoot
 
     public function getUpdatedBy(): ?string
     {
-        return $this->updatedBy?->value();
+        if (!isset($this->updatedBy))
+            return null;
+
+        return $this->updatedBy->value();
     }
 
     public function getUpdatedAt(): ?int
     {
-        return $this->updatedAt?->valueAsUnixTime();
+        if (!isset($this->updatedAt))
+            return null;
+
+        return $this->updatedAt->valueAsUnixTime();
     }
 
     public function getDeletedBy(): ?string
     {
-        return $this->deletedBy?->value();
+        if (!isset($this->deletedBy))
+            return null;
+
+        return $this->deletedBy->value();
     }
 
     public function getDeletedAt(): ?int
     {
-        return $this->deletedAt?->valueAsUnixTime();
+        if (!isset($this->deletedAt))
+            return null;
+
+        return $this->deletedAt->valueAsUnixTime();
     }
 
     public function updateName(string $name, string $updater): void
@@ -176,7 +188,7 @@ class Product extends AggregateRoot
             'total_sales' => $this->getTotalSales(),
             'created_by' => $this->getCreatedBy(),
             'created_at' => $this->getCreatedAt(),
-            'updated_by' => $this->getUpdatedAt(),
+            'updated_by' => $this->getUpdatedBy(),
             'updated_at' => $this->getUpdatedAt(),
             'deleted_by' => $this->getDeletedBy(),
             'deleted_at' => $this->getDeletedAt(),
@@ -202,8 +214,8 @@ class Product extends AggregateRoot
             DateTimeValueObject::createFromUnixTime($primitives['created_at']),
             UserId::create($primitives['updated_by']),
             DateTimeValueObject::createFromUnixTime($primitives['updated_at']),
-            UserId::create($primitives['deleted_by']),
-            DateTimeValueObject::createFromUnixTime($primitives['deleted_at']),
+            $primitives['deleted_by'] ? UserId::create($primitives['deleted_by']) : null,
+            $primitives['deleted_at'] ? DateTimeValueObject::createFromUnixTime($primitives['deleted_at']) : null,
         );
     }
 
