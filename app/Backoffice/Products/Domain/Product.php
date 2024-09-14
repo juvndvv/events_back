@@ -17,19 +17,19 @@ use DateTimeImmutable;
 
 class Product extends AggregateRoot
 {
-    private readonly ?ProductId $id;
-    private readonly ?ProductName $name;
-    private readonly ?ProductPrice $price;
-    private readonly ?ProductDescription $description;
-    private readonly ?ProductImage $image;
-    private readonly ?ProductTotalSales $totalSales;
+    private ?ProductId $id;
+    private ?ProductName $name;
+    private ?ProductPrice $price;
+    private ?ProductDescription $description;
+    private ?ProductImage $image;
+    private ?ProductTotalSales $totalSales;
 
-    private readonly ?UserId $createdBy;
-    private readonly ?DateTimeValueObject $createdAt;
-    private readonly ?UserId $updatedBy;
-    private readonly ?DateTimeValueObject $updatedAt;
-    private readonly ?UserId $deletedBy;
-    private DateTimeValueObject $deletedAt;
+    private ?UserId $createdBy;
+    private ?DateTimeValueObject $createdAt;
+    private ?UserId $updatedBy;
+    private ?DateTimeValueObject $updatedAt;
+    private ?UserId $deletedBy;
+    private ?DateTimeValueObject $deletedAt;
 
     protected function __construct(
         ?ProductId           $id = null,
@@ -41,9 +41,9 @@ class Product extends AggregateRoot
 
         ?UserId              $createdBy = null,
         ?DateTimeValueObject $createdAt = null,
-        ?DateTimeValueObject $updatedBy = null,
+        ?UserId              $updatedBy = null,
         ?DateTimeValueObject $updatedAt = null,
-        ?DateTimeValueObject $deletedBy = null,
+        ?UserId              $deletedBy = null,
         ?DateTimeValueObject $deletedAt = null
     )
     {
@@ -102,24 +102,24 @@ class Product extends AggregateRoot
         return $this->createdAt->valueAsUnixTime();
     }
 
-    public function getUpdatedBy(): string
+    public function getUpdatedBy(): ?string
     {
-        return $this->updatedBy->value();
+        return $this->updatedBy?->value();
     }
 
-    public function getUpdatedAt(): int
+    public function getUpdatedAt(): ?int
     {
-        return $this->updatedAt->valueAsUnixTime();
+        return $this->updatedAt?->valueAsUnixTime();
     }
 
-    public function getDeletedBy(): string
+    public function getDeletedBy(): ?string
     {
-        return $this->deletedBy->value();
+        return $this->deletedBy?->value();
     }
 
-    public function getDeletedAt(): int
+    public function getDeletedAt(): ?int
     {
-        return $this->deletedAt->valueAsUnixTime();
+        return $this->deletedAt?->valueAsUnixTime();
     }
 
     public function isDeleted(): bool
@@ -143,6 +143,11 @@ class Product extends AggregateRoot
             'price' => $this->getPrice(),
             'total_sales' => $this->getTotalSales(),
             'created_by' => $this->getCreatedBy(),
+            'created_at' => $this->getCreatedAt(),
+            'updated_by' => $this->getUpdatedAt(),
+            'updated_at' => $this->getUpdatedAt(),
+            'deleted_by' => $this->getDeletedBy(),
+            'deleted_at' => $this->getDeletedAt(),
         ];
     }
 
@@ -156,6 +161,11 @@ class Product extends AggregateRoot
             ProductPrice::create($primitives['price']),
             ProductTotalSales::create($primitives['total_sales']),
             UserId::create($primitives['created_by']),
+            DateTimeValueObject::createFromUnixTime($primitives['created_at']),
+            UserId::create($primitives['updated_by']),
+            DateTimeValueObject::createFromUnixTime($primitives['updated_at']),
+            UserId::create($primitives['deleted_by']),
+            DateTimeValueObject::createFromUnixTime($primitives['deleted_at']),
         );
     }
 

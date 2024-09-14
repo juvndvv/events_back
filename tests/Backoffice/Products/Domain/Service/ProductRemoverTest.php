@@ -12,9 +12,13 @@ use App\Backoffice\Products\Domain\ValueObject\ProductImage;
 use App\Backoffice\Products\Domain\ValueObject\ProductName;
 use App\Backoffice\Products\Domain\ValueObject\ProductPrice;
 use App\Shared\Domain\Identifier\UserId;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
+#[Group('domain')]
+#[Group('backoffice')]
+#[Group('backoffice-products')]
 class ProductRemoverTest extends TestCase
 {
     private MockObject $productFinder;
@@ -29,7 +33,7 @@ class ProductRemoverTest extends TestCase
         $this->productRemover = new ProductRemover($this->repository, $this->productFinder);
     }
 
-    public function testShouldRemoveProduct(): void
+    public function testItShouldRemoveProduct(): void
     {
         $name = ProductName::create('Product Name');
         $description = ProductDescription::create('Product Description');
@@ -49,7 +53,7 @@ class ProductRemoverTest extends TestCase
         $this->assertTrue($deleted->isDeleted());
     }
 
-    public function testShouldThrowProductDoesntExistException()
+    public function testItShouldThrowProductDoesntExistException()
     {
         $this->expectException(ProductDoesntExist::class);
         $this->productRemover->__invoke('nonexisentProductId');

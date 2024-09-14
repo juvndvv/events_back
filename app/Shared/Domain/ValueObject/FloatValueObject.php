@@ -52,7 +52,7 @@ abstract class FloatValueObject
 
         $parts = explode('.', (string) $value);
         if (isset($parts[1]) && strlen($parts[1]) > 2) {
-            throw new InvalidArgumentException(sprintf('Value "%s" has more than %s decimals [%s]', $decimals, $value));
+            throw new InvalidArgumentException(sprintf('Value "%s" has more than %s decimals', $value, $decimals));
         }
     }
 

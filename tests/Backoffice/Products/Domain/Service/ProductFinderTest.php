@@ -10,10 +10,14 @@ use App\Backoffice\Products\Domain\ValueObject\ProductImage;
 use App\Backoffice\Products\Domain\ValueObject\ProductName;
 use App\Backoffice\Products\Domain\ValueObject\ProductPrice;
 use App\Shared\Domain\Identifier\UserId;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
-use Stub\ProductMother;
+use Tests\Stub\ProductMother;
 use Tests\TestCase;
 
+#[Group('domain')]
+#[Group('backoffice')]
+#[Group('backoffice-products')]
 class ProductFinderTest extends TestCase
 {
     private ProductFinder $productFinder;
@@ -26,13 +30,13 @@ class ProductFinderTest extends TestCase
         $this->productFinder = new ProductFinder($this->repository);
     }
 
-    public function testShouldReturnNull(): void
+    public function testItShouldReturnNull(): void
     {
         $result =$this->productFinder->__invoke('nonexistentid');
         $this->assertNull($result);
     }
 
-    public function testShouldReturnProduct(): void
+    public function testItShouldReturnProduct(): void
     {
         // Arrange
         $name = ProductName::create('Product Name');
@@ -50,6 +54,16 @@ class ProductFinderTest extends TestCase
 
         $result = $this->productFinder->__invoke($product->getId());
 
-        $this->assertSame($product, $result);
+        $this->assertEquals($product->getId(), $result->getId());
+        $this->assertEquals($product->getName(), $result->getName());
+        $this->assertEquals($product->getDescription(), $result->getDescription());
+        $this->assertEquals($product->getImage(), $result->getImage());
+        $this->assertEquals($product->getPrice(), $result->getPrice());
+        $this->assertEquals($product->getCreatedBy(), $result->getCreatedBy());
+        $this->assertEquals($product->getUpdatedBy(), $result->getUpdatedBy());
+        $this->assertEquals($product->getCreatedAt(), $result->getCreatedAt());
+        $this->assertEquals($product->getUpdatedAt(), $result->getUpdatedAt());
+        $this->assertEquals($product->getDeletedAt(), $result->getDeletedAt());
+        $this->assertEquals($product->getDeletedBy(), $result->getDeletedBy());
     }
 }

@@ -12,13 +12,13 @@ use App\Backoffice\Products\Domain\ValueObject\ProductImage;
 use App\Backoffice\Products\Domain\ValueObject\ProductName;
 use App\Backoffice\Products\Domain\ValueObject\ProductPrice;
 use App\Shared\Domain\Identifier\UserId;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Tests\TestCase;
 
-/**
- * @group backoffice
- * @group backoffice-products
- */
+#[Group('domain')]
+#[Group('backoffice')]
+#[Group('backoffice-products')]
 class ProductCreatorTest extends TestCase
 {
     private ProductCreator $productCreator;
@@ -33,7 +33,7 @@ class ProductCreatorTest extends TestCase
         $this->productCreator = new ProductCreator($this->finder, $this->repository);
     }
 
-    public function testShouldCreateProduct(): void
+    public function testItShouldCreateProduct(): void
     {
         // Arrange
         $name = ProductName::create('Product Name');
@@ -65,7 +65,7 @@ class ProductCreatorTest extends TestCase
         $this->assertEquals($product->getCreatedBy(), $createdProduct->getCreatedBy());
     }
 
-    public function testShouldThrowExceptionWhenProductAlreadyExists(): void
+    public function testItShouldThrowExceptionWhenProductAlreadyExists(): void
     {
         // Arrange
         $name = ProductName::create('Product Name');

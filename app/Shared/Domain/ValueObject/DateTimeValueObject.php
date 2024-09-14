@@ -126,7 +126,7 @@ class DateTimeValueObject
      */
     public static function createFromUnixTime(int $value): static
     {
-        return new static(DateTimeImmutable::createFromFormat('U', $value));
+        return new static(DateTimeImmutable::createFromFormat('U', (string) $value));
     }
 
     /**

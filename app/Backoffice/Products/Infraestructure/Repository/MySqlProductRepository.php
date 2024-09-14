@@ -6,12 +6,15 @@ use App\Backoffice\Products\Domain\Port\ProductRepository;
 use App\Backoffice\Products\Domain\Product;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @group infrastructure
+ */
 final class MySqlProductRepository implements ProductRepository
 {
     public function save(Product $product): void
     {
         DB::table('products')
-            ->create([
+            ->insert([
                 'id' => $product->getId(),
                 'name' => $product->getName(),
                 'description' => $product->getDescription(),
