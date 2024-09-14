@@ -29,7 +29,7 @@ class ProductMother extends Product
             image: $image ?: ProductImage::create(uniqid('product_image-')),
             price: $price ?: ProductPrice::create(1 + mt_rand() / mt_getrandmax() * (50 - 1)),
             totalSales: $totalSales ?: ProductTotalSales::create(mt_rand() / mt_getrandmax()),
-            creatorId: $userId ?: UserId::generate(),
+            createdBy: $userId ?: UserId::generate(),
         );
     }
 }

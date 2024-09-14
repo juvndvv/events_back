@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Shared\Domain\ValueObject;
 
-use App\Shared\Domain\Exception\InvalidArgumentException;
+use App\Shared\Domain\Exceptions\InvalidArgumentException;
 use DateTimeImmutable;
 
 /**
@@ -62,6 +62,11 @@ class DateTimeValueObject
         return $this->value;
     }
 
+    public function valueAsUnixTime(): int
+    {
+        return $this->value->getTimestamp();
+    }
+
     /**
      * Converts the object to a string in ISO 8601 format.
      *
@@ -108,6 +113,20 @@ class DateTimeValueObject
     public static function create(DateTimeImmutable $value): static
     {
         return new static($value);
+    }
+
+    /**
+     * Named constructor to create a new instance of the class from unix time
+     *
+     * @param int $value Unix time
+     *
+     * @return static A new instance of the class with the provided DateTime value
+     *
+     * @throws InvalidArgumentException If the provided value is not valid
+     */
+    public static function createFromUnixTime(int $value): static
+    {
+        return new static(DateTimeImmutable::createFromFormat('U', $value));
     }
 
     /**

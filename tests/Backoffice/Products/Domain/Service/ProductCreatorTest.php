@@ -62,7 +62,7 @@ class ProductCreatorTest extends TestCase
         $this->assertEquals($product->getDescription(), $createdProduct->getDescription());
         $this->assertEquals($product->getImage(), $createdProduct->getImage());
         $this->assertEquals($product->getPrice(), $createdProduct->getPrice());
-        $this->assertEquals($product->getCreatorId(), $createdProduct->getCreatorId());
+        $this->assertEquals($product->getCreatedBy(), $createdProduct->getCreatedBy());
     }
 
     public function testShouldThrowExceptionWhenProductAlreadyExists(): void

@@ -23,17 +23,28 @@ class Product extends AggregateRoot
     private readonly ?ProductDescription $description;
     private readonly ?ProductImage $image;
     private readonly ?ProductTotalSales $totalSales;
-    private readonly ?UserId $creator;
+
+    private readonly ?UserId $createdBy;
+    private readonly ?DateTimeValueObject $createdAt;
+    private readonly ?UserId $updatedBy;
+    private readonly ?DateTimeValueObject $updatedAt;
+    private readonly ?UserId $deletedBy;
     private DateTimeValueObject $deletedAt;
 
     protected function __construct(
-        ?ProductId          $id = null,
-        ?ProductName        $name = null,
-        ?ProductDescription $description = null,
-        ?ProductImage       $image = null,
-        ?ProductPrice       $price = null,
-        ?ProductTotalSales  $totalSales = null,
-        ?UserId             $creatorId = null,
+        ?ProductId           $id = null,
+        ?ProductName         $name = null,
+        ?ProductDescription  $description = null,
+        ?ProductImage        $image = null,
+        ?ProductPrice        $price = null,
+        ?ProductTotalSales   $totalSales = null,
+
+        ?UserId              $createdBy = null,
+        ?DateTimeValueObject $createdAt = null,
+        ?DateTimeValueObject $updatedBy = null,
+        ?DateTimeValueObject $updatedAt = null,
+        ?DateTimeValueObject $deletedBy = null,
+        ?DateTimeValueObject $deletedAt = null
     )
     {
         $this->id = $id;
@@ -42,7 +53,13 @@ class Product extends AggregateRoot
         $this->image = $image;
         $this->price = $price;
         $this->totalSales = $totalSales;
-        $this->creator = $creatorId;
+
+        $this->createdBy = $createdBy;
+        $this->createdAt = $createdAt;
+        $this->updatedBy = $updatedBy;
+        $this->updatedAt = $updatedAt;
+        $this->deletedBy = $deletedBy;
+        $this->deletedAt = $deletedAt;
     }
 
     public function getId(): string
@@ -75,9 +92,34 @@ class Product extends AggregateRoot
         return $this->totalSales->value();
     }
 
-    public function getCreatorId()
+    public function getCreatedBy(): string
     {
-        return $this->creator->value();
+        return $this->createdBy->value();
+    }
+
+    public function getCreatedAt(): int
+    {
+        return $this->createdAt->valueAsUnixTime();
+    }
+
+    public function getUpdatedBy(): string
+    {
+        return $this->updatedBy->value();
+    }
+
+    public function getUpdatedAt(): int
+    {
+        return $this->updatedAt->valueAsUnixTime();
+    }
+
+    public function getDeletedBy(): string
+    {
+        return $this->deletedBy->value();
+    }
+
+    public function getDeletedAt(): int
+    {
+        return $this->deletedAt->valueAsUnixTime();
     }
 
     public function isDeleted(): bool
@@ -100,7 +142,7 @@ class Product extends AggregateRoot
             'image' => $this->getImage(),
             'price' => $this->getPrice(),
             'total_sales' => $this->getTotalSales(),
-            'creator_id' => $this->getCreatorId(),
+            'created_by' => $this->getCreatedBy(),
         ];
     }
 
@@ -113,17 +155,18 @@ class Product extends AggregateRoot
             ProductImage::create($primitives['image']),
             ProductPrice::create($primitives['price']),
             ProductTotalSales::create($primitives['total_sales']),
-            UserId::create($primitives['creator_id']),
+            UserId::create($primitives['created_by']),
         );
     }
 
     public static function create(
-        ProductName $name,
+        ProductName        $name,
         ProductDescription $description,
-        ProductImage $image,
-        ProductPrice $price,
-        UserId $creatorId
-    ): self {
+        ProductImage       $image,
+        ProductPrice       $price,
+        UserId             $createdBy
+    ): self
+    {
         $new = new self(
             id: ProductId::generate(),
             name: $name,
@@ -131,7 +174,8 @@ class Product extends AggregateRoot
             image: $image,
             price: $price,
             totalSales: ProductTotalSales::create(0),
-            creatorId: $creatorId,
+            createdBy: $createdBy,
+            createdAt: DateTimeValueObject::create(new DateTimeImmutable()),
         );
 
         $new->record(new ProductCreatedEvent());
