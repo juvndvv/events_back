@@ -4,6 +4,10 @@ namespace App\Backoffice\Products\Domain;
 
 use App\Backoffice\Products\Domain\Event\ProductCreatedEvent;
 use App\Backoffice\Products\Domain\Event\ProductDeletedEvent;
+use App\Backoffice\Products\Domain\Event\ProductDescriptionUpdatedEvent;
+use App\Backoffice\Products\Domain\Event\ProductImageUpdatedEvent;
+use App\Backoffice\Products\Domain\Event\ProductNameUpdatedEvent;
+use App\Backoffice\Products\Domain\Event\ProductPriceUpdatedEvent;
 use App\Backoffice\Products\Domain\ValueObject\ProductDescription;
 use App\Backoffice\Products\Domain\ValueObject\ProductImage;
 use App\Backoffice\Products\Domain\ValueObject\ProductName;
@@ -122,6 +126,34 @@ class Product extends AggregateRoot
         return $this->deletedAt?->valueAsUnixTime();
     }
 
+    public function updateName(string $name, string $updater): void
+    {
+        $this->name = ProductName::create($name);
+        $this->record(new ProductNameUpdatedEvent());
+        $this->update($updater);
+    }
+
+    public function updateDescription(string $description, string $updater): void
+    {
+        $this->description = ProductDescription::create($description);
+        $this->record(new ProductDescriptionUpdatedEvent());
+        $this->update($updater);
+    }
+
+    public function updateImage(string $image, string $updater): void
+    {
+        $this->image = ProductImage::create($image);
+        $this->record(new ProductDescriptionUpdatedEvent());
+        $this->update($updater);
+    }
+
+    public function updatePrice(float $price, string $updater): void
+    {
+        $this->price = ProductPrice::create($price);
+        $this->record(new ProductPriceUpdatedEvent());
+        $this->update($updater);
+    }
+
     public function isDeleted(): bool
     {
         return $this->deletedAt->value() !== null;
@@ -149,6 +181,12 @@ class Product extends AggregateRoot
             'deleted_by' => $this->getDeletedBy(),
             'deleted_at' => $this->getDeletedAt(),
         ];
+    }
+
+    private function update(string $updater = null): void
+    {
+        $this->updatedAt = DateTimeValueObject::create(new DateTimeImmutable());
+        $this->updatedBy = UserId::create($updater);
     }
 
     public static function fromPrimitives(array $primitives): Product

@@ -16,7 +16,7 @@ use DateTimeImmutable;
 class ProductMother extends Product
 {
     public static function son(
-        ?int $id = null,
+        ?string $id = null,
         ?string $name = null,
         ?string $description = null,
         ?string $image = null,

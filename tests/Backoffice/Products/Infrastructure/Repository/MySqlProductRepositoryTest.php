@@ -77,4 +77,15 @@ class MySqlProductRepositoryTest extends DbTestCase
         $this->assertEquals($product->getDeletedBy(), $result->getDeletedBy());
         $this->assertEquals($product->getDeletedAt(), $result->getDeletedAt());
     }
+
+    public function testItShouldUpdateProduct()
+    {
+        $product = ProductMother::son();
+        $updatedProduct = ProductMother::son(id: $product->getId());
+
+        $this->repository->save($product);
+        $this->repository->update($updatedProduct);
+
+        $this->assertDatabaseHas('products', $updatedProduct->toPrimitives());
+    }
 }

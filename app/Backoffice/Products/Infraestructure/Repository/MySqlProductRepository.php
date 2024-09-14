@@ -65,6 +65,8 @@ final class MySqlProductRepository implements ProductRepository
 
     public function update(Product $product): void
     {
-        // TODO: Implement update() method.
+        DB::table('products')
+            ->where('id', $product->getId())
+            ->update($product->toPrimitives());
     }
 }
