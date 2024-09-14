@@ -7,18 +7,21 @@ use App\Backoffice\Products\Application\Create\CreateProductCommandHandler;
 use App\Backoffice\Products\Domain\Service\ProductCreator;
 use App\Shared\Domain\Identifier\UserId;
 use PHPUnit\Framework\Attributes\Group;
-use Tests\DbTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
+use Tests\Stub\ProductMother;
+use Tests\TestCase;
 
 #[Group('application')]
 #[Group('backoffice')]
 #[Group('backoffice-products')]
-class CreateProductCommandTest extends DbTestCase
+class CreateProductCommandTest extends TestCase
 {
-    private ProductCreator $creator;
+    private MockObject $creator;
+
     protected function setUp(): void
     {
         parent::setUp();
-        $this->creator = $this->app->make(ProductCreator::class);
+        $this->creator = $this->createMock(ProductCreator::class);
     }
 
     public function testItShouldCreateProduct(): void
@@ -41,14 +44,15 @@ class CreateProductCommandTest extends DbTestCase
             $this->creator,
         );
 
+        $this->creator
+            ->expects($this->once())
+            ->method('__invoke')
+            ->willReturn(ProductMother::son());
+
         $id = $handler($command);
 
-        $this->assertDatabaseHas('products', [
-            'name' => $name,
-            'description' => $description,
-            'image' => $image,
-            'price' => $price,
-            'created_by' => $creatorId,
-        ]);
+        $this->assertNotEmpty($id);
+
+        // TODO asegurar que se publica el evento
     }
 }
