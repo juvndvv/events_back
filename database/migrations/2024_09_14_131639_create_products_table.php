@@ -12,18 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->string('id')->unique();
-            $table->string('name');
-            $table->string('description');
-            $table->string('image');
-            $table->float('price');
-            $table->integer('total_sales');
-            $table->string('created_by');
-            $table->integer('created_at');
-            $table->string('updated_by');
-            $table->integer('updated_at');
-            $table->string('deleted_by');
-            $table->integer('deleted_at');
+            $table->string('id');
+            $table->string('name')->nullable();
+            $table->string('description')->nullable();
+            $table->string('image')->nullable();
+            $table->float('price')->nullable();
+            $table->integer('total_sales')->nullable();
+            $table->string('created_by')->nullable();
+            $table->integer('created_at')->nullable();
+            $table->string('updated_by')->nullable();
+            $table->integer('updated_at')->nullable();
+            $table->string('deleted_by')->nullable();
+            $table->integer('deleted_at')->nullable();
         });
     }
 

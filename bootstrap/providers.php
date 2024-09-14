@@ -1,5 +1,7 @@
 <?php
 
+use App\Backoffice\Products\Infraestructure\AppServiceProvider as ProductServiceProvider;
+
 return [
-    App\Providers\AppServiceProvider::class,
+    ProductServiceProvider::class
 ];

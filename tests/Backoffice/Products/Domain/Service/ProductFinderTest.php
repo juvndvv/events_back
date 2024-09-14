@@ -3,13 +3,7 @@
 namespace Backoffice\Products\Domain\Service;
 
 use App\Backoffice\Products\Domain\Port\ProductRepository;
-use App\Backoffice\Products\Domain\Product;
 use App\Backoffice\Products\Domain\Service\ProductFinder;
-use App\Backoffice\Products\Domain\ValueObject\ProductDescription;
-use App\Backoffice\Products\Domain\ValueObject\ProductImage;
-use App\Backoffice\Products\Domain\ValueObject\ProductName;
-use App\Backoffice\Products\Domain\ValueObject\ProductPrice;
-use App\Shared\Domain\Identifier\UserId;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Tests\Stub\ProductMother;
