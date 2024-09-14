@@ -3,9 +3,11 @@
 namespace Tests\Backoffice\Products\Infrastructure\Repository;
 
 use App\Backoffice\Products\Infraestructure\Repository\MySqlProductRepository;
+use PHPUnit\Framework\Attributes\Group;
 use Tests\DbTestCase;
 use Tests\Stub\ProductMother;
 
+#[Group('infrastructure')]
 class MySqlProductRepositoryTest extends DbTestCase
 {
     private MySqlProductRepository $repository;

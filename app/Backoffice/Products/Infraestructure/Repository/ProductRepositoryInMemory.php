@@ -5,7 +5,9 @@ namespace App\Backoffice\Product\Infraestructure\Repository;
 
 use App\Backoffice\Products\Domain\Port\ProductRepository;
 use App\Backoffice\Products\Domain\Product;
+use JetBrains\PhpStorm\Deprecated;
 
+#[Deprecated]
 final class ProductRepositoryInMemory implements ProductRepository
 {
     private static $products = [];
@@ -31,5 +33,10 @@ final class ProductRepositoryInMemory implements ProductRepository
         self::$products = array_filter(self::$products, function (Product $p) use ($product) {
             return $p->getId() !== $product->getId();
         });
+    }
+
+    public function update(Product $product): void
+    {
+        // TODO: Implement update() method.
     }
 }

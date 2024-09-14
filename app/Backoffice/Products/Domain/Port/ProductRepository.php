@@ -8,8 +8,7 @@ use App\Backoffice\Products\Domain\Product;
 interface ProductRepository
 {
     public function save(Product $product): void;
-
     public function search(string $id): ?Product;
-
     public function delete(Product $product): void;
+    public function update(Product $product): void;
 }

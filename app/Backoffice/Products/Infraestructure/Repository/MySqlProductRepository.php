@@ -6,9 +6,7 @@ use App\Backoffice\Products\Domain\Port\ProductRepository;
 use App\Backoffice\Products\Domain\Product;
 use Illuminate\Support\Facades\DB;
 
-/**
- * @group infrastructure
- */
+
 final class MySqlProductRepository implements ProductRepository
 {
     public function save(Product $product): void
@@ -63,5 +61,10 @@ final class MySqlProductRepository implements ProductRepository
         DB::table('products')
             ->where('id', $product->getId())
             ->delete();
+    }
+
+    public function update(Product $product): void
+    {
+        // TODO: Implement update() method.
     }
 }
