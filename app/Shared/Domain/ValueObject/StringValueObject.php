@@ -96,4 +96,9 @@ abstract class StringValueObject
     {
         return new static($value);
     }
+
+    public static function generate(): static
+    {
+        return new static(substr(uniqid(), 0, static::MAX_LENGTH), static::MIN_LENGTH, static::MAX_LENGTH);
+    }
 }

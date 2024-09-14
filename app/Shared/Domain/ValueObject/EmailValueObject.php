@@ -94,4 +94,9 @@ abstract class EmailValueObject
     {
         return new static($value);
     }
+
+    public static function generate(): static
+    {
+        return new static(uniqid() . '@gmail.com');
+    }
 }
