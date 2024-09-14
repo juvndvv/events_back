@@ -17,7 +17,7 @@ class CreateProductCommandHandler
     {
     }
 
-    public function __invoke(CreateProductCommand $command): void
+    public function __invoke(CreateProductCommand $command): string
     {
         $product = $this->productCreator->__invoke(
             name: ProductName::create($command->name),
@@ -26,6 +26,9 @@ class CreateProductCommandHandler
             price: ProductPrice::create($command->price),
             creatorId: UserId::create($command->creatorId)
         );
+
         // TODO publish domain event
+
+        return $product->getId();
     }
 }
