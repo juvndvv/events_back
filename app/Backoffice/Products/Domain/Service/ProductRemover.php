@@ -23,7 +23,7 @@ class ProductRemover
         $product = $this->finder->__invoke($id);
 
         if (null === $product) {
-            throw new ProductDoesntExist();
+            throw new ProductDoesntExist($id);
         }
 
         $this->repository->delete($product);

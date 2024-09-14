@@ -41,7 +41,7 @@ class ProductCreator
         $product = $this->finder->__invoke($id);
 
         if (null !== $product) {
-            throw new ProductAlreadyExists();
+            throw new ProductAlreadyExists($id);
         }
     }
 }
