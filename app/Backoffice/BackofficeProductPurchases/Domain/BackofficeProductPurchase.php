@@ -23,8 +23,8 @@ class BackofficeProductPurchase extends AggregateRoot
     private readonly UserId $creatorId;
     private readonly BackofficeProductPurchaseBuyer $buyer;
     private readonly BackofficeProductPurchaseUnitPrice $unitPrice;
-    private readonly BackofficeProductPurchasePrice $price;
     private readonly BackofficeProductPurchaseQuantity $quantity;
+    private readonly BackofficeProductPurchasePrice $price;
     private readonly DateTimeValueObject $purchaseAt;
 
     protected function __construct(
@@ -32,8 +32,8 @@ class BackofficeProductPurchase extends AggregateRoot
         ProductId                          $productId,
         UserId $creatorId,
         BackofficeProductPurchaseUnitPrice $unitPrice,
-        BackofficeProductPurchasePrice     $price,
         BackofficeProductPurchaseQuantity  $quantity,
+        BackofficeProductPurchasePrice     $price,
         BackofficeProductPurchaseBuyer     $buyer,
         DateTimeValueObject                $purchaseAt,
     )
@@ -43,8 +43,8 @@ class BackofficeProductPurchase extends AggregateRoot
         $this->creatorId = $creatorId;
         $this->buyer = $buyer;
         $this->unitPrice = $unitPrice;
-        $this->price = $price;
         $this->quantity = $quantity;
+        $this->price = $price;
         $this->purchaseAt = $purchaseAt;
     }
 
@@ -88,9 +88,9 @@ class BackofficeProductPurchase extends AggregateRoot
         return $this->buyer->getEmail();
     }
 
-    public function getPurchasedAt(): DateTimeImmutable
+    public function getPurchasedAt(): int
     {
-        return $this->purchaseAt->value();
+        return $this->purchaseAt->valueAsUnixTime();
     }
 
     public function toPrimitives(): array
@@ -117,10 +117,10 @@ class BackofficeProductPurchase extends AggregateRoot
             productId: ProductId::create($primitives['product_id']),
             creatorId: UserId::create($primitives['creator_id']),
             unitPrice: BackofficeProductPurchaseUnitPrice::create($primitives['unit_price']),
-            price: BackofficeProductPurchasePrice::create($primitives['price']),
             quantity: BackofficeProductPurchaseQuantity::create($primitives['quantity']),
+            price: BackofficeProductPurchasePrice::create($primitives['price']),
             buyer: $buyer,
-            purchaseAt: DateTimeValueObject::create($primitives['purchased_at'])
+            purchaseAt: DateTimeValueObject::createFromUnixTime($primitives['purchased_at'])
         );
     }
 
@@ -139,8 +139,8 @@ class BackofficeProductPurchase extends AggregateRoot
             productId: $productId,
             creatorId: $creatorId,
             unitPrice: $unitPrice,
-            price: $price,
             quantity: $quantity,
+            price: $price,
             buyer: $buyer,
             purchaseAt: DateTimeValueObject::create(new DateTimeImmutable()),
         );
