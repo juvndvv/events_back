@@ -104,9 +104,14 @@ class BackofficeProductPurchase extends AggregateRoot
         return $this->purchaseAt->valueAsUnixTime();
     }
 
+    public function getAvailable(): int
+    {
+        return $this->getQuantity() - $this->getExpenses();
+    }
+
     public function generateExpense(int $quantity): void
     {
-        $available = $this->getQuantity() - $this->getExpenses();
+        $available = $this->getAvailable();
 
         if ($available < $quantity) {
             throw new OutOfStock($available, $quantity);
