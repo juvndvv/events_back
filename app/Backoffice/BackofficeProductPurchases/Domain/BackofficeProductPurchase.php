@@ -3,6 +3,8 @@
 namespace App\Backoffice\BackofficeProductPurchases\Domain;
 
 
+use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseBuyerEmail;
+use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseBuyerName;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseDateTime;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseId;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchasePrice;
@@ -110,7 +112,9 @@ class BackofficeProductPurchase extends AggregateRoot
 
     public static function fromPrimitives(array $primitives): BackofficeProductPurchase
     {
-        $buyer = BackofficeProductPurchaseBuyer::create($primitives['buyer_name'], $primitives['buyer_email']);
+        $buyerName = BackofficeProductPurchaseBuyerName::create($primitives['buyer_name']);
+        $buyerEmail = BackofficeProductPurchaseBuyerEmail::create($primitives['buyer_email']);
+        $buyer = BackofficeProductPurchaseBuyer::create($buyerName, $buyerEmail);
 
         return new BackofficeProductPurchase(
             id: BackofficeProductPurchaseId::create($primitives['id']),

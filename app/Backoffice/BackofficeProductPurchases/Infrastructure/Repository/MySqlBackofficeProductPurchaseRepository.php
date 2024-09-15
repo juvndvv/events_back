@@ -15,7 +15,7 @@ class MySqlBackofficeProductPurchaseRepository implements BackofficeProductPurch
             ->insert($productPurchase->toPrimitives());
     }
 
-    public function find(string $id): ?BackofficeProductPurchase
+    public function search(string $id): ?BackofficeProductPurchase
     {
         $db = DB::table('purchases')
             ->where('id', $id)

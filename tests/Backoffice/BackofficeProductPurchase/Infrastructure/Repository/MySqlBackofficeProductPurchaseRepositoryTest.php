@@ -3,6 +3,7 @@
 namespace Tests\Backoffice\BackofficeProductPurchase\Infrastructure\Repository;
 
 use App\Backoffice\BackofficeProductPurchases\Infrastructure\Repository\MySqlBackofficeProductPurchaseRepository;
+use Illuminate\Support\Facades\DB;
 use PHPUnit\Framework\Attributes\Group;
 use Tests\DbTestCase;
 use Tests\Stub\BackofficeProductPurchaseMother;
@@ -25,5 +26,21 @@ class MySqlBackofficeProductPurchaseRepositoryTest extends DbTestCase
         $this->repository->save($purchase);
 
         $this->assertDatabaseHas('purchases', $purchase->toPrimitives());
+    }
+
+    public function testItShouldFindPurchase()
+    {
+        $purchase = BackofficeProductPurchaseMother::son();
+
+        DB::table('purchases')->insert($purchase->toPrimitives());
+
+        $result = $this->repository->search($purchase->getId());
+
+        $this->assertEquals($purchase->toPrimitives(), $result->toPrimitives());
+    }
+
+    public function testItShouldReturnNullOnSearch()
+    {
+        $this->assertNull($this->repository->search('nonexistent'));
     }
 }

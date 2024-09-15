@@ -8,5 +8,5 @@ use App\Backoffice\BackofficeProductPurchases\Domain\BackofficeProductPurchase;
 interface BackofficeProductPurchaseRepository
 {
     public function save(BackofficeProductPurchase $productPurchase): void;
-    public function find(string $id): ?BackofficeProductPurchase;
+    public function search(string $id): ?BackofficeProductPurchase;
 }
