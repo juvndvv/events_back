@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('purchases', function (Blueprint $table) {
-            $table->string('qr')->nullable();
+        Schema::create('qr_generations', function (Blueprint $table) {
+            $table->string('purchase_id')->nullable();
+            $table->longText('content')->nullable();
+
+            $table->index('purchase_id');
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('purchases', function (Blueprint $table) {
-            $table->dropColumn('qr');
-        });
+        Schema::dropIfExists('qr_generations');
     }
 };

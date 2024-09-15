@@ -2,25 +2,15 @@
 
 namespace App\Retention\QRCode\Infrastructure\Repository;
 
-use App\Retention\QRCode\Domain\Port\QRCodeGeneratorRepository;
+use App\Retention\QRCode\Domain\Port\QRCodeRepository;
+use App\Retention\QRCode\Domain\QRCode;
 use Illuminate\Support\Facades\DB;
-use chillerlan\QRCode\{QRCode as ChillerLanQRCode, QROptions};
 
 
-class ChillerLanQRCodeRepository implements QRCodeGeneratorRepository
+class ChillerLanQRCodeRepository implements QRCodeRepository
 {
-    private const PATH = 'scan?qr=';
-
-    public function generate(string $purchaseId): void
+    public function save(QRCode $QRCode): void
     {
-        $data = self::PATH . $purchaseId;
-
-        $qr = (new ChillerLanQRCode)->render($data);
-
-        DB::table('purchases')
-            ->where('id', $purchaseId)
-            ->update([
-                'qr' => $qr
-            ]);
+        DB::table('qr_generations')->insert($QRCode->toPrimitives());
     }
 }

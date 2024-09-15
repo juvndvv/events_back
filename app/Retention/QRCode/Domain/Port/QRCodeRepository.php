@@ -5,7 +5,7 @@ namespace App\Retention\QRCode\Domain\Port;
 use App\Retention\QRCode\Domain\QRCode;
 use chillerlan\QRCode\{QRCode as ChillerLanQRCode, QROptions};
 
-interface QRCodeGeneratorRepository
+interface QRCodeRepository
 {
-    public function generate(string $purchaseId): void;
+    public function save(QRCode $QRCode): void;
 }
