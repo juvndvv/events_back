@@ -45,6 +45,17 @@ class MySqlProductRepositoryTest extends DbTestCase
         $this->assertNull($result);
     }
 
+    public function testItShouldReturnDeletedProduct(): void
+    {
+        $product = ProductMother::son(deleted: true);
+
+        DB::table('products')->insert($product->toPrimitives());
+
+        $result = $this->repository->search($product->getId());
+
+        $this->assertEquals($result->toPrimitives(), $product->toPrimitives());
+    }
+
     public function testItShouldReturnProductOnSearch(): void
     {
         $product = ProductMother::son();

@@ -18,7 +18,6 @@ final class MySqlProductRepository implements ProductRepository
     {
         $db = DB::table('products')
             ->where('id', $id)
-            ->whereNull('deleted_at')
             ->first();
 
         if (null == $db) {
