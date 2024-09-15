@@ -5,11 +5,13 @@ namespace App\Backoffice\BackofficeProductPurchases\Domain;
 
 use App\Backoffice\BackofficeProductPurchases\Domain\Entity\BackofficeProductPurchaseBuyer;
 use App\Backoffice\BackofficeProductPurchases\Domain\Event\ProductPurchaseCreated;
+use App\Backoffice\BackofficeProductPurchases\Domain\Exception\OutOfStock;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseBuyerEmail;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseBuyerName;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseId;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchasePrice;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseQuantity;
+use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseTotalExpenses;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseUnitPrice;
 use App\Shared\Domain\AggregateRoot;
 use App\Shared\Domain\Identifier\ProductId;
@@ -25,6 +27,7 @@ class BackofficeProductPurchase extends AggregateRoot
     private readonly BackofficeProductPurchaseBuyer $buyer;
     private readonly BackofficeProductPurchaseUnitPrice $unitPrice;
     private readonly BackofficeProductPurchaseQuantity $quantity;
+    private BackofficeProductPurchaseTotalExpenses $expenses;
     private readonly BackofficeProductPurchasePrice $price;
     private readonly DateTimeValueObject $purchaseAt;
 
@@ -35,6 +38,7 @@ class BackofficeProductPurchase extends AggregateRoot
         BackofficeProductPurchaseUnitPrice $unitPrice,
         BackofficeProductPurchaseQuantity  $quantity,
         BackofficeProductPurchasePrice     $price,
+        BackofficeProductPurchaseTotalExpenses $expenses,
         BackofficeProductPurchaseBuyer     $buyer,
         DateTimeValueObject                $purchaseAt,
     )
@@ -46,6 +50,7 @@ class BackofficeProductPurchase extends AggregateRoot
         $this->unitPrice = $unitPrice;
         $this->quantity = $quantity;
         $this->price = $price;
+        $this->expenses = $expenses;
         $this->purchaseAt = $purchaseAt;
     }
 
@@ -74,6 +79,11 @@ class BackofficeProductPurchase extends AggregateRoot
         return $this->price->value();
     }
 
+    public function getExpenses(): int
+    {
+        return $this->expenses->value();
+    }
+
     public function getQuantity(): int
     {
         return $this->quantity->value();
@@ -94,6 +104,17 @@ class BackofficeProductPurchase extends AggregateRoot
         return $this->purchaseAt->valueAsUnixTime();
     }
 
+    public function generateExpense(int $quantity): void
+    {
+        $available = $this->getQuantity() - $this->getExpenses();
+
+        if ($available < $quantity) {
+            throw new OutOfStock($available, $quantity);
+        }
+
+        $this->expenses = BackofficeProductPurchaseTotalExpenses::create($this->expenses->value() + $quantity);
+    }
+
     public function toPrimitives(): array
     {
         return [
@@ -104,6 +125,7 @@ class BackofficeProductPurchase extends AggregateRoot
             'buyer_email' => $this->getBuyerEmail(),
             'unit_price' => $this->getUnitPrice(),
             'price' => $this->getPrice(),
+            'expenses' => $this->getExpenses(),
             'quantity' => $this->getQuantity(),
             'purchased_at' => $this->getPurchasedAt()
         ];
@@ -122,6 +144,7 @@ class BackofficeProductPurchase extends AggregateRoot
             unitPrice: BackofficeProductPurchaseUnitPrice::create($primitives['unit_price']),
             quantity: BackofficeProductPurchaseQuantity::create($primitives['quantity']),
             price: BackofficeProductPurchasePrice::create($primitives['price']),
+            expenses: BackofficeProductPurchaseTotalExpenses::create($primitives['expenses']),
             buyer: $buyer,
             purchaseAt: DateTimeValueObject::createFromUnixTime($primitives['purchased_at'])
         );
@@ -144,6 +167,7 @@ class BackofficeProductPurchase extends AggregateRoot
             unitPrice: $unitPrice,
             quantity: $quantity,
             price: $price,
+            expenses: BackofficeProductPurchaseTotalExpenses::create(0),
             buyer: $buyer,
             purchaseAt: DateTimeValueObject::create(new DateTimeImmutable()),
         );

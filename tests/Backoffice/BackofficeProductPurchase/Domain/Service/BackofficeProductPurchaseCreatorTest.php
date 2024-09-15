@@ -44,6 +44,7 @@ class BackofficeProductPurchaseCreatorTest extends TestCase
             productId: $product->getId(),
             creatorId: $user->getId(),
             unitPrice: $product->getPrice(),
+            expenses: 0,
         );
 
         $productId = ProductId::create($purchase->getProductId());
@@ -77,7 +78,7 @@ class BackofficeProductPurchaseCreatorTest extends TestCase
         $this->assertArrayIsIdenticalToArrayOnlyConsideringListOfKeys(
             $purchase->toPrimitives(),
             $result->toPrimitives(),
-            ['product_id', 'buyer_name', 'buyer_email', 'unit_price', 'price', 'quantity']
+            ['product_id', 'buyer_name', 'buyer_email', 'unit_price', 'price', 'expenses', 'quantity']
         );
     }
 

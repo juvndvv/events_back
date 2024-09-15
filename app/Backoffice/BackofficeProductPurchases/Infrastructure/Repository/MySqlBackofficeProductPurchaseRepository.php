@@ -60,6 +60,7 @@ class MySqlBackofficeProductPurchaseRepository implements BackofficeProductPurch
             'unit_price' => $db->unit_price,
             'quantity' => $db->quantity,
             'price' => $db->price,
+            'expenses' => $db->expenses,
             'purchased_at' => $db->purchased_at,
         ];
     }
