@@ -3,9 +3,10 @@
 namespace App\Backoffice\BackofficeProductPurchases\Domain;
 
 
+use App\Backoffice\BackofficeProductPurchases\Domain\Entity\BackofficeProductPurchaseBuyer;
+use App\Backoffice\BackofficeProductPurchases\Domain\Event\ProductPurchaseCreated;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseBuyerEmail;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseBuyerName;
-use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseDateTime;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseId;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchasePrice;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseQuantity;
@@ -14,8 +15,6 @@ use App\Shared\Domain\AggregateRoot;
 use App\Shared\Domain\Identifier\ProductId;
 use App\Shared\Domain\Identifier\UserId;
 use App\Shared\Domain\ValueObject\DateTimeValueObject;
-use App\Store\ProductPurchases\Domain\Entity\BackofficeProductPurchaseBuyer;
-use App\Store\ProductPurchases\Domain\Event\ProductPurchaseCreated;
 use DateTimeImmutable;
 
 class BackofficeProductPurchase extends AggregateRoot

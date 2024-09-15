@@ -3,6 +3,7 @@
 namespace Tests\Stub;
 
 use App\Backoffice\BackofficeProductPurchases\Domain\BackofficeProductPurchase;
+use App\Backoffice\BackofficeProductPurchases\Domain\Entity\BackofficeProductPurchaseBuyer;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseBuyerEmail;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseBuyerName;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseId;
@@ -12,7 +13,6 @@ use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProdu
 use App\Shared\Domain\Identifier\ProductId;
 use App\Shared\Domain\Identifier\UserId;
 use App\Shared\Domain\ValueObject\DateTimeValueObject;
-use App\Store\ProductPurchases\Domain\Entity\BackofficeProductPurchaseBuyer;
 use DateTimeImmutable;
 
 class BackofficeProductPurchaseMother extends BackofficeProductPurchase

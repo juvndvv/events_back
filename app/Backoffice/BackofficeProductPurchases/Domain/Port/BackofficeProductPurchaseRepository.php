@@ -9,4 +9,5 @@ interface BackofficeProductPurchaseRepository
 {
     public function save(BackofficeProductPurchase $productPurchase): void;
     public function search(string $id): ?BackofficeProductPurchase;
+    public function searchByQRCode(array $file): ?BackofficeProductPurchase;
 }

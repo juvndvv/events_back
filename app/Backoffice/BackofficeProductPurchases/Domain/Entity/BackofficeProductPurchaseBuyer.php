@@ -3,10 +3,11 @@
 namespace App\Backoffice\BackofficeProductPurchases\Domain\Entity;
 
 
-use App\Store\ProductPurchases\Domain\ValueObject\BackofficeProductPurchaseBuyerEmail;
-use App\Store\ProductPurchases\Domain\ValueObject\BackofficeProductPurchaseBuyerName;
 
-class ProductPurchaseBuyer
+use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseBuyerEmail;
+use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseBuyerName;
+
+class BackofficeProductPurchaseBuyer
 {
     private BackofficeProductPurchaseBuyerName $name;
     private BackofficeProductPurchaseBuyerEmail $email;
@@ -30,11 +31,10 @@ class ProductPurchaseBuyer
         return $this->email->value();
     }
 
-    public static function create(string $name, string $email): self
+    public static function create(BackofficeProductPurchaseBuyerName $name, BackofficeProductPurchaseBuyerEmail $email): self
     {
         return new self(
-            BackofficeProductPurchaseBuyerName::create($name),
-            BackofficeProductPurchaseBuyerEmail::create($email)
+            $name, $email
         );
     }
 }

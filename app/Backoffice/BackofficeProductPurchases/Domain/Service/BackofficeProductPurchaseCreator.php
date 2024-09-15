@@ -3,6 +3,7 @@
 namespace App\Backoffice\BackofficeProductPurchases\Domain\Service;
 
 use App\Backoffice\BackofficeProductPurchases\Domain\BackofficeProductPurchase;
+use App\Backoffice\BackofficeProductPurchases\Domain\Entity\BackofficeProductPurchaseBuyer;
 use App\Backoffice\BackofficeProductPurchases\Domain\Port\BackofficeProductPurchaseRepository;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseBuyerEmail;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseBuyerName;
@@ -15,7 +16,6 @@ use App\Backoffice\User\Domain\Exception\UserDoesntExist;
 use App\Backoffice\User\Domain\Services\UserFinder;
 use App\Shared\Domain\Identifier\ProductId;
 use App\Shared\Domain\Identifier\UserId;
-use App\Store\ProductPurchases\Domain\Entity\BackofficeProductPurchaseBuyer;
 
 class BackofficeProductPurchaseCreator
 {
