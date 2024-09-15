@@ -50,7 +50,6 @@ abstract class IntegerValueObject
         if ($value < $min ?? PHP_INT_MIN && $value > $max ?? PHP_INT_MAX) {
             throw new InvalidArgumentException(sprintf('Value "%s" is out of range [%s, %s]', $value, $min, $max));
         }
-
     }
 
     /**
@@ -98,4 +97,22 @@ abstract class IntegerValueObject
     {
         return new static($value, $min, $max);
     }
+
+    public static function generate(): static
+    {
+        // Verificar si la clase heredera tiene las constantes definidas
+        $min = defined('static::MIN') ? static::MIN : 0;
+        $max = defined('static::MAX') ? static::MAX : 100;
+
+        if ($min >= $max) {
+            throw new InvalidArgumentException('Min must be less than Max.');
+        }
+
+        // Generar número entero aleatorio entre min y max
+        $randomInt = mt_rand($min, $max);
+
+        // Crear una instancia de la clase hija
+        return static::doCreate($randomInt, $min, $max);
+    }
+
 }

@@ -6,8 +6,8 @@ use App\Shared\Domain\ValueObject\FloatValueObject;
 
 class BackofficeProductPurchasePrice extends FloatValueObject
 {
-    private const MIN = 0;
-    private const MAX_DECIMALS = 2;
+    protected const MIN = 0;
+    protected const MAX_DECIMALS = 2;
 
     public static function create(float $value): self
     {

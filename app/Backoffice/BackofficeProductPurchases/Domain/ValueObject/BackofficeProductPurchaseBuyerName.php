@@ -6,11 +6,11 @@ use App\Shared\Domain\ValueObject\StringValueObject;
 
 class BackofficeProductPurchaseBuyerName extends StringValueObject
 {
-    private const MIN_LENGTH = 3;
-    private const MAX_LENGTH = 100;
+    protected const MIN_LENGTH = 3;
+    protected const MAX_LENGTH = 100;
 
-    public static function create(string $value)
+    public static function create(string $value): self
     {
-        parent::doCreate($value, self::MIN_LENGTH, self::MAX_LENGTH);
+        return parent::doCreate($value, self::MIN_LENGTH, self::MAX_LENGTH);
     }
 }

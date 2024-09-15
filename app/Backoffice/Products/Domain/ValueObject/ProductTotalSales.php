@@ -6,7 +6,7 @@ use App\Shared\Domain\ValueObject\IntegerValueObject;
 
 class ProductTotalSales extends IntegerValueObject
 {
-    private const MIN = 0;
+    protected const MIN = 0;
 
     public static function create(int $value): self
     {

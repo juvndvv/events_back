@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Backoffice\Products\Domain\ValueObject;
+namespace App\Backoffice\BackofficeProductPurchases\Domain\ValueObject;
 
 use App\Shared\Domain\ValueObject\FloatValueObject;
 
-class ProductPrice extends FloatValueObject
+class BackofficeProductPurchaseUnitPrice extends FloatValueObject
 {
     protected const MIN = 0;
+    protected const MAX = PHP_FLOAT_MAX;
     protected const MAX_DECIMALS = 2;
 
     public static function create(float $value): self

@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Shared\Domain\ValueObject;
 
-
 use App\Shared\Domain\Exceptions\InvalidArgumentException;
 
 /**
  * Class FloatValueObject
  *
  * Abstract base class for value objects representing a float.
- * Ensures the integer value is valid and provides methods for accessing and comparing the value.
+ * Ensures the float value is valid and provides methods for accessing and comparing the value.
  *
  * @package App\Shared\Domain\ValueObject
  */
@@ -23,11 +22,11 @@ abstract class FloatValueObject
     protected float $value;
 
     /**
-     * IntegerValueObject constructor.
+     * FloatValueObject constructor.
      *
-     * @param float $value The integer value.
+     * @param float $value The float value.
      *
-     * @throws InvalidArgumentException If the provided value is not a valid integer.
+     * @throws InvalidArgumentException If the provided value is not valid.
      */
     private function __construct(float $value, ?float $min = null, ?float $max = null, ?int $decimals = null)
     {
@@ -46,20 +45,24 @@ abstract class FloatValueObject
      */
     protected function ensureIsValid(float $value, ?float $min, ?float $max, ?int $decimals): void
     {
-        if ($value <= $min ?? PHP_FLOAT_MIN || $value >= $max ?? PHP_FLOAT_MAX) {
+        $min = $min ?? PHP_FLOAT_MIN;
+        $max = $max ?? PHP_FLOAT_MAX;
+        $decimals = $decimals ?? 2; // Default max decimals
+
+        if ($value < $min || $value > $max) {
             throw new InvalidArgumentException(sprintf('Value "%s" is out of range [%s, %s]', $value, $min, $max));
         }
 
         $parts = explode('.', (string) $value);
-        if (isset($parts[1]) && strlen($parts[1]) > 2) {
+        if (isset($parts[1]) && strlen($parts[1]) > $decimals) {
             throw new InvalidArgumentException(sprintf('Value "%s" has more than %s decimals', $value, $decimals));
         }
     }
 
     /**
-     * Gets the value of the object as an integer.
+     * Gets the value of the object as a float.
      *
-     * @return float The integer value of the object.
+     * @return float The float value of the object.
      */
     public function value(): float
     {
@@ -89,16 +92,46 @@ abstract class FloatValueObject
     }
 
     /**
-     * Named constructor for StringValueObject
+     * Named constructor for FloatValueObject
      *
      * @param float $value
-     * @param int|null $min
-     * @param int|null $max
-     * @return FloatValueObject
+     * @param float|null $min
+     * @param float|null $max
+     * @param int|null $decimals
+     * @return static
      * @throws InvalidArgumentException
      */
-    public static function doCreate(float $value, ?int $min = null, ?int $max = null, int $decimals = null): static
+    public static function doCreate(float $value, ?float $min = null, ?float $max = null, ?int $decimals = null): static
     {
         return new static($value, $min, $max, $decimals);
     }
+
+    /**
+     * Static method to generate a random float within min and max values with max decimals.
+     *
+     * @param float|null $min
+     * @param float|null $max
+     * @param int|null $decimals
+     * @return static
+     * @throws InvalidArgumentException
+     */
+    public static function generate(): static
+    {
+        // Verificar si la clase heredera tiene las constantes definidas
+        $min = defined('static::MIN') ? static::MIN : 0.0;
+        $max = defined('static::MAX') ? static::MAX : 100.0;
+        $decimals = defined('MAX_DECIMALS') ? static::MAX_DECIMALS : 2;
+
+        if ($min >= $max) {
+            throw new InvalidArgumentException('Min must be less than Max.');
+        }
+
+        // Generar número flotante aleatorio
+        $factor = pow(10, $decimals);
+        $randomFloat = mt_rand((int)($min * $factor), (int)($max * $factor)) / $factor;
+
+        // Crear una instancia de la clase hija
+        return static::doCreate($randomFloat, $min, $max, $decimals);
+    }
+
 }

@@ -94,7 +94,7 @@ abstract class StringValueObject
      */
     protected static function doCreate(string $value, ?int $min = null, ?int $max = null): static
     {
-        return new static($value);
+        return new static($value, $min, $max);
     }
 
     public static function generate(): static
