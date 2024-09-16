@@ -29,6 +29,6 @@ class testing extends Command
     public function handle()
     {
         $eventbus = new PusherEventBus();
-        $eventbus->send(ProductPurchaseCreatedMother::son());
+        $eventbus->publish(ProductPurchaseCreatedMother::son());
     }
 }

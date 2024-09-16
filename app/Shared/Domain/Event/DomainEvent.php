@@ -23,12 +23,12 @@ abstract class DomainEvent implements ShouldBroadcast
         $this->ocurredOn = $occurredOn ?? new DateTimeImmutable();
     }
 
-    public function broadcastOn()
+    public function broadcastOn(): array
     {
         return ['events'];
     }
 
-    public function broadcastAs()
+    public function broadcastAs(): string
     {
         return $this->name();
     }

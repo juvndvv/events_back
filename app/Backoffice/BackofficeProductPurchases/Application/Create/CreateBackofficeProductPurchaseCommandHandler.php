@@ -6,7 +6,7 @@ use App\Backoffice\BackofficeProductPurchases\Domain\Service\BackofficeProductPu
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseBuyerEmail;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseBuyerName;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseQuantity;
-use App\Shared\Domain\Bus\Event\EventBus;
+use App\Shared\Domain\Event\EventBus;
 use App\Shared\Domain\Identifier\ProductId;
 use App\Shared\Domain\Identifier\UserId;
 

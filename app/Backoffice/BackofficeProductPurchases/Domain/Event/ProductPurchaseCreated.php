@@ -7,7 +7,7 @@ use DateTimeImmutable;
 
 class ProductPurchaseCreated extends DomainEvent
 {
-    static string $eventName = 'jotadev.product.purchase.created';
+    static string $eventName = ProductPurchaseCreated::class;
 
     public function __construct(
         public string $id,
