@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Shared\Domain\Bus\Event\KafkaEventBus;
+use App\Shared\Domain\Event\PusherEventBus;
 use Illuminate\Console\Command;
 use Tests\Stub\Backoffice\ProductPurchaseCreatedMother;
 
@@ -27,7 +28,7 @@ class testing extends Command
      */
     public function handle()
     {
-        $eventbus = new KafkaEventBus();
-        $eventbus->publish(ProductPurchaseCreatedMother::son());
+        $eventbus = new PusherEventBus();
+        $eventbus->send(ProductPurchaseCreatedMother::son());
     }
 }
