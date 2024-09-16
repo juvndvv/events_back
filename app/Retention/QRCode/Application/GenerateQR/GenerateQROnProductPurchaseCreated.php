@@ -19,7 +19,6 @@ class GenerateQROnProductPurchaseCreated extends DomainEventSubscriber
     public function on(DomainEvent|ProductPurchaseCreated $event): void
     {
         $qr = $this->qrCodeGenerator->__invoke(QrCodePurchaseId::create($event->id));
-        log($qr->getContent());
     }
 
     public function subscribedTo(): string
