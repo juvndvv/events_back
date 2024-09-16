@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Stub;
+namespace Tests\Stub\Backoffice;
 
 use App\Backoffice\Products\Domain\Product;
 use App\Backoffice\Products\Domain\ValueObject\ProductDescription;

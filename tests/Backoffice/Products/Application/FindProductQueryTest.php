@@ -7,7 +7,7 @@ use App\Backoffice\Products\Application\Find\FindProductQueryHandler;
 use App\Backoffice\Products\Domain\Exceptions\ProductDoesntExist;
 use App\Backoffice\Products\Domain\Service\ProductFinder;
 use PHPUnit\Framework\MockObject\MockObject;
-use Tests\Stub\ProductMother;
+use Tests\Stub\Backoffice\ProductMother;
 use Tests\TestCase;
 
 class FindProductQueryTest extends TestCase

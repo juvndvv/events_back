@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Stub;
+namespace Tests\Stub\Backoffice;
 
 use App\Backoffice\BackofficeProductPurchases\Domain\BackofficeProductPurchase;
 use App\Backoffice\BackofficeProductPurchases\Domain\Entity\BackofficeProductPurchaseBuyer;

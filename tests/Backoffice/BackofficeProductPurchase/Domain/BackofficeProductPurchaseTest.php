@@ -3,7 +3,7 @@
 namespace Tests\Backoffice\BackofficeProductPurchase\Domain;
 
 use App\Backoffice\BackofficeProductPurchases\Domain\Exception\OutOfStock;
-use Tests\Stub\BackofficeProductPurchaseMother;
+use Tests\Stub\Backoffice\BackofficeProductPurchaseMother;
 use Tests\TestCase;
 
 class BackofficeProductPurchaseTest extends TestCase

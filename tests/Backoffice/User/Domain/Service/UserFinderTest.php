@@ -5,7 +5,7 @@ namespace Tests\Backoffice\User\Domain\Service;
 use App\Backoffice\User\Domain\Port\UserRepository;
 use App\Backoffice\User\Domain\Services\UserFinder;
 use PHPUnit\Framework\MockObject\MockObject;
-use Tests\Stub\UserMother;
+use Tests\Stub\Backoffice\UserMother;
 use Tests\TestCase;
 
 class UserFinderTest extends TestCase

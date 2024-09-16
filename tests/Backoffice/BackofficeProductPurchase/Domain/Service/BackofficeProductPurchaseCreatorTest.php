@@ -7,7 +7,6 @@ use App\Backoffice\BackofficeProductPurchases\Domain\Service\BackofficeProductPu
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseBuyerEmail;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseBuyerName;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseQuantity;
-use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseUnitPrice;
 use App\Backoffice\Products\Domain\Exceptions\ProductDoesntExist;
 use App\Backoffice\Products\Domain\Service\ProductFinder;
 use App\Backoffice\User\Domain\Exception\UserDoesntExist;
@@ -15,9 +14,9 @@ use App\Backoffice\User\Domain\Services\UserFinder;
 use App\Shared\Domain\Identifier\ProductId;
 use App\Shared\Domain\Identifier\UserId;
 use PHPUnit\Framework\MockObject\MockObject;
-use Tests\Stub\BackofficeProductPurchaseMother;
-use Tests\Stub\ProductMother;
-use Tests\Stub\UserMother;
+use Tests\Stub\Backoffice\BackofficeProductPurchaseMother;
+use Tests\Stub\Backoffice\ProductMother;
+use Tests\Stub\Backoffice\UserMother;
 use Tests\TestCase;
 
 class BackofficeProductPurchaseCreatorTest extends TestCase

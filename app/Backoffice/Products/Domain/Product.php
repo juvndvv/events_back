@@ -2,7 +2,7 @@
 
 namespace App\Backoffice\Products\Domain;
 
-use App\Backoffice\Products\Domain\Event\ProductCreatedEvent;
+use App\Backoffice\Products\Domain\Event\ProductCreated;
 use App\Backoffice\Products\Domain\Event\ProductDeletedEvent;
 use App\Backoffice\Products\Domain\Event\ProductDescriptionUpdatedEvent;
 use App\Backoffice\Products\Domain\Event\ProductImageUpdatedEvent;
@@ -238,7 +238,7 @@ class Product extends AggregateRoot
             createdAt: DateTimeValueObject::create(new DateTimeImmutable()),
         );
 
-        $new->record(new ProductCreatedEvent());
+        $new->record(new ProductCreated());
 
         return $new;
     }

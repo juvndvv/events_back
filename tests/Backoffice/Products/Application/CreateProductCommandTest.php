@@ -8,7 +8,7 @@ use App\Backoffice\Products\Domain\Service\ProductCreator;
 use App\Shared\Domain\Identifier\UserId;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
-use Tests\Stub\ProductMother;
+use Tests\Stub\Backoffice\ProductMother;
 use Tests\TestCase;
 
 #[Group('application')]

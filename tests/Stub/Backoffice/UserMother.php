@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Stub;
+namespace Tests\Stub\Backoffice;
 
 use App\Backoffice\User\Domain\User;
 use App\Backoffice\User\Domain\ValueObject\UserEmail;

@@ -6,7 +6,7 @@ use App\Backoffice\BackofficeProductPurchases\Infrastructure\Repository\MySqlBac
 use Illuminate\Support\Facades\DB;
 use PHPUnit\Framework\Attributes\Group;
 use Tests\DbTestCase;
-use Tests\Stub\BackofficeProductPurchaseMother;
+use Tests\Stub\Backoffice\BackofficeProductPurchaseMother;
 
 #[Group('infrastructure')]
 class MySqlBackofficeProductPurchaseRepositoryTest extends DbTestCase

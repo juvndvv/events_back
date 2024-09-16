@@ -165,8 +165,11 @@ class BackofficeProductPurchase extends AggregateRoot
     {
         $price = BackofficeProductPurchasePrice::create(round($quantity->value() * $unitPrice->value(), 2));
 
+        $id = BackofficeProductPurchaseId::generate();
+        $on = DateTimeValueObject::create(new DateTimeImmutable());
+
         $purchase = new self(
-            id: BackofficeProductPurchaseId::generate(),
+            id: $id,
             productId: $productId,
             creatorId: $creatorId,
             unitPrice: $unitPrice,
@@ -174,10 +177,10 @@ class BackofficeProductPurchase extends AggregateRoot
             price: $price,
             expenses: BackofficeProductPurchaseTotalExpenses::create(0),
             buyer: $buyer,
-            purchaseAt: DateTimeValueObject::create(new DateTimeImmutable()),
+            purchaseAt: $on,
         );
 
-        $purchase->record(new ProductPurchaseCreated());
+        $purchase->record(new ProductPurchaseCreated($id->value(), $on->value()));
 
         return $purchase;
     }

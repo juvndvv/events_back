@@ -12,7 +12,7 @@ use App\Backoffice\User\Domain\ValueObject\UserEmail;
 use App\Backoffice\User\Domain\ValueObject\UserHashPassword;
 use App\Backoffice\User\Domain\ValueObject\UserName;
 use PHPUnit\Framework\MockObject\MockObject;
-use Tests\Stub\UserMother;
+use Tests\Stub\Backoffice\UserMother;
 use Tests\TestCase;
 
 class UserCreatorTest extends TestCase

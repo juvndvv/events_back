@@ -4,11 +4,10 @@ namespace Tests\Backoffice\Products\Application;
 
 use App\Backoffice\Products\Application\Update\UpdateProductCommand;
 use App\Backoffice\Products\Application\Update\UpdateProductCommandHandler;
-use App\Backoffice\Products\Domain\Service\ProductFinder;
 use App\Backoffice\Products\Domain\Service\ProductUpdater;
 use App\Shared\Domain\Identifier\UserId;
 use PHPUnit\Framework\MockObject\MockObject;
-use Tests\Stub\ProductMother;
+use Tests\Stub\Backoffice\ProductMother;
 use Tests\TestCase;
 
 class UpdateProductCommandTest extends TestCase

@@ -5,7 +5,7 @@ namespace Tests\Backoffice\User\Infrastructure\Repository;
 use App\Backoffice\User\Infrastructure\Repository\MySqlUserRepository;
 use Illuminate\Support\Facades\DB;
 use Tests\DbTestCase;
-use Tests\Stub\UserMother;
+use Tests\Stub\Backoffice\UserMother;
 
 class MySqlUserRepositoryTest extends DbTestCase
 {

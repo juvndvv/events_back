@@ -6,9 +6,8 @@ use App\Backoffice\BackofficeProductPurchases\Domain\Service\BackofficeProductPu
 use App\Retention\QRCode\Domain\Port\QRCodeRepository;
 use App\Retention\QRCode\Domain\Service\QRCodeGenerator;
 use App\Retention\QRCode\Domain\ValueObject\QRCodePurchaseId;
-use chillerlan\QRCode\QRCode as ChillerLanQRCode;
 use PHPUnit\Framework\MockObject\MockObject;
-use Tests\Stub\BackofficeProductPurchaseMother;
+use Tests\Stub\Backoffice\BackofficeProductPurchaseMother;
 use Tests\TestCase;
 
 class QRCodeGeneratorTest extends TestCase

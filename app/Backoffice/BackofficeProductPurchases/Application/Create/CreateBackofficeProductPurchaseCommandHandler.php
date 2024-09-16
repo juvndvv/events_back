@@ -6,13 +6,15 @@ use App\Backoffice\BackofficeProductPurchases\Domain\Service\BackofficeProductPu
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseBuyerEmail;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseBuyerName;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseQuantity;
+use App\Shared\Domain\Bus\Event\EventBus;
 use App\Shared\Domain\Identifier\ProductId;
 use App\Shared\Domain\Identifier\UserId;
 
 class CreateBackofficeProductPurchaseCommandHandler
 {
     public function __construct(
-        private readonly BackofficeProductPurchaseCreator $creator
+        private readonly BackofficeProductPurchaseCreator $creator,
+        private readonly EventBus $eventBus,
     )
     {
     }
@@ -27,7 +29,7 @@ class CreateBackofficeProductPurchaseCommandHandler
             email: BackofficeProductPurchaseBuyerEmail::create($command->email),
         );
 
-        // TODO publish events
+        $this->eventBus->publish(...$purchase->pullDomainEvents());
 
         return $purchase->getId();
     }

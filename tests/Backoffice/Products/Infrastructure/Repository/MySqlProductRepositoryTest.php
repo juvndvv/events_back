@@ -6,7 +6,7 @@ use App\Backoffice\Products\Infraestructure\Repository\MySqlProductRepository;
 use Illuminate\Support\Facades\DB;
 use PHPUnit\Framework\Attributes\Group;
 use Tests\DbTestCase;
-use Tests\Stub\ProductMother;
+use Tests\Stub\Backoffice\ProductMother;
 
 #[Group('infrastructure')]
 class MySqlProductRepositoryTest extends DbTestCase

@@ -6,7 +6,7 @@ use App\Backoffice\Products\Domain\Port\ProductRepository;
 use App\Backoffice\Products\Domain\Service\ProductFinder;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
-use Tests\Stub\ProductMother;
+use Tests\Stub\Backoffice\ProductMother;
 use Tests\TestCase;
 
 #[Group('domain')]

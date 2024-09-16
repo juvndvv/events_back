@@ -4,8 +4,7 @@ namespace Tests\Retention\QRCode\Infrastructure\Repository;
 
 use App\Retention\QRCode\Infrastructure\Repository\ChillerLanQRCodeRepository;
 use Tests\DbTestCase;
-use Tests\Stub\QRCodeMother;
-use Tests\TestCase;
+use Tests\Stub\Retention\QRCodeMother;
 
 class ChillerLanQRCodeRepositoryTest extends DbTestCase
 {

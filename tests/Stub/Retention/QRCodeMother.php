@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Stub;
+namespace Tests\Stub\Retention;
 
 use App\Retention\QRCode\Domain\QRCode;
 use App\Retention\QRCode\Domain\ValueObject\QRCodeContent;

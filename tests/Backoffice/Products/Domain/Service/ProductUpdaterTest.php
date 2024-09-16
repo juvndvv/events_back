@@ -8,7 +8,7 @@ use App\Backoffice\Products\Domain\Service\ProductFinder;
 use App\Backoffice\Products\Domain\Service\ProductUpdater;
 use App\Shared\Domain\Identifier\UserId;
 use PHPUnit\Framework\MockObject\MockObject;
-use Tests\Stub\ProductMother;
+use Tests\Stub\Backoffice\ProductMother;
 use Tests\TestCase;
 
 class ProductUpdaterTest extends TestCase
