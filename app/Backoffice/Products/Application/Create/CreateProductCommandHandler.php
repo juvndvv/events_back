@@ -27,8 +27,6 @@ class CreateProductCommandHandler
             creatorId: UserId::create($command->creatorId)
         );
 
-        // TODO publish domain event
-
         return $product->getId();
     }
 }

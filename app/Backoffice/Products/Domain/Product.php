@@ -2,12 +2,6 @@
 
 namespace App\Backoffice\Products\Domain;
 
-use App\Backoffice\Products\Domain\Event\ProductCreated;
-use App\Backoffice\Products\Domain\Event\ProductDeletedEvent;
-use App\Backoffice\Products\Domain\Event\ProductDescriptionUpdatedEvent;
-use App\Backoffice\Products\Domain\Event\ProductImageUpdatedEvent;
-use App\Backoffice\Products\Domain\Event\ProductNameUpdatedEvent;
-use App\Backoffice\Products\Domain\Event\ProductPriceUpdatedEvent;
 use App\Backoffice\Products\Domain\ValueObject\ProductDescription;
 use App\Backoffice\Products\Domain\ValueObject\ProductImage;
 use App\Backoffice\Products\Domain\ValueObject\ProductName;
@@ -141,28 +135,24 @@ class Product extends AggregateRoot
     public function updateName(string $name, string $updater): void
     {
         $this->name = ProductName::create($name);
-        $this->record(new ProductNameUpdatedEvent());
         $this->update($updater);
     }
 
     public function updateDescription(string $description, string $updater): void
     {
         $this->description = ProductDescription::create($description);
-        $this->record(new ProductDescriptionUpdatedEvent());
         $this->update($updater);
     }
 
     public function updateImage(string $image, string $updater): void
     {
         $this->image = ProductImage::create($image);
-        $this->record(new ProductDescriptionUpdatedEvent());
         $this->update($updater);
     }
 
     public function updatePrice(float $price, string $updater): void
     {
         $this->price = ProductPrice::create($price);
-        $this->record(new ProductPriceUpdatedEvent());
         $this->update($updater);
     }
 
@@ -174,7 +164,6 @@ class Product extends AggregateRoot
     public function delete(): void
     {
         $this->deletedAt = DateTimeValueObject::create(new DateTimeImmutable());
-        $this->record(new ProductDeletedEvent());
     }
 
     public function toPrimitives(): array
@@ -227,7 +216,7 @@ class Product extends AggregateRoot
         UserId             $createdBy
     ): self
     {
-        $new = new self(
+        return new self(
             id: ProductId::generate(),
             name: $name,
             description: $description,
@@ -237,9 +226,5 @@ class Product extends AggregateRoot
             createdBy: $createdBy,
             createdAt: DateTimeValueObject::create(new DateTimeImmutable()),
         );
-
-        $new->record(new ProductCreated());
-
-        return $new;
     }
 }

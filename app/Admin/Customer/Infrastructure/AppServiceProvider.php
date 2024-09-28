@@ -2,25 +2,38 @@
 
 namespace App\Admin\Customer\Infrastructure;
 
+use App\Admin\Customer\Application\Create\CreateCustomerCommand;
+use App\Admin\Customer\Application\Create\CreateCustomerCommandHandler;
 use App\Admin\Customer\Domain\Port\CustomerRepository;
 use App\Admin\Customer\Infrastructure\Repository\MySqlCustomerRepository;
-use Illuminate\Support\ServiceProvider;
+use App\Shared\Infrastructure\Configuration\ServiceProvider\AbstractServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+class AppServiceProvider extends AbstractServiceProvider
 {
     /**
      * Register any application services.
      */
     public function register(): void
     {
-
+        $this->getServiceContainer()->bind(CustomerRepository::class, MySqlCustomerRepository::class);
     }
 
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot(): void
+    protected function mapQueries(): void
     {
-        $this->app->bind(CustomerRepository::class, MySqlCustomerRepository::class);
+    }
+
+    protected function mapCommands(): void
+    {
+        $this->getCommandBus()->map([
+            CreateCustomerCommand::class => CreateCustomerCommandHandler::class,
+        ]);
+    }
+
+    protected function mapEvents(): void
+    {
+    }
+
+    protected function mapServices(): void
+    {
     }
 }

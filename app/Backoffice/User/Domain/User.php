@@ -2,9 +2,6 @@
 
 namespace App\Backoffice\User\Domain;
 
-use App\Backoffice\Products\Domain\ValueObject\ProductName;
-use App\Backoffice\User\Domain\Event\UserEmailUpdated;
-use App\Backoffice\User\Domain\Event\UserNameUpdated;
 use App\Backoffice\User\Domain\ValueObject\UserEmail;
 use App\Backoffice\User\Domain\ValueObject\UserHashPassword;
 use App\Backoffice\User\Domain\ValueObject\UserName;
@@ -54,13 +51,11 @@ class User extends AggregateRoot
     public function updateName(string $name): void
     {
         $this->name = UserName::create($name);
-        $this->record(new UserNameUpdated());
     }
 
     public function updateEmail(string $email): void
     {
         $this->email = UserEmail::create($email);
-        $this->record(new UserEmailUpdated());
     }
 
     public function updateHashPassword(string $hashPassword): void

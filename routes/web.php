@@ -1,7 +1,6 @@
 <?php
 
+use App\Admin\Customer\Infrastructure\Entrypoint\Http\PostCustomerController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', PostCustomerController::class);

@@ -11,6 +11,20 @@ class MySqlCustomerRepository implements CustomerRepository
     public function saveOrUpdate(Customer $customer): void
     {
         DB::table('customers')
-            ->updateOrCreate($customer->toPrimitives());
+            ->updateOrInsert($customer->toPrimitives());
+    }
+
+    public function searchById(string $id): ?Customer
+    {
+        $result = DB::table('customers')
+            ->where('id', $id)
+            ->get()
+            ->toArray();
+
+        if ($result === null) {
+            return null;
+        }
+
+        return Customer::fromPrimitives($result);
     }
 }

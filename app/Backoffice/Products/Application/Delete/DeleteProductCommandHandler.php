@@ -15,6 +15,5 @@ class DeleteProductCommandHandler
     public function __invoke(DeleteProductCommand $command): void
     {
         $this->productRemover->__invoke($command->id);
-        // TODO publish domain event
     }
 }

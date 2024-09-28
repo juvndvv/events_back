@@ -4,10 +4,10 @@ namespace App\Admin\Customer\Domain;
 
 use App\Admin\Customer\Domain\Exception\CustomerAlreadyActive;
 use App\Admin\Customer\Domain\Exception\CustomerAlreadyDeactivated;
-use App\Admin\Customer\Domain\ValueObject\CustomerId;
-use App\Admin\Customer\Domain\ValueObject\CustomerName;
 use App\Shared\Domain\AggregateRoot;
 use App\Shared\Domain\ValueObject\BoolValueObject;
+use App\Shared\Domain\ValueObject\Customer\CustomerId;
+use App\Shared\Domain\ValueObject\Customer\CustomerName;
 
 class Customer extends AggregateRoot
 {
@@ -48,7 +48,6 @@ class Customer extends AggregateRoot
     public function updateName(string $name): void
     {
         $this->name = CustomerName::create($name);
-        // TODO generate event
     }
 
     public function activate(): void
@@ -77,10 +76,16 @@ class Customer extends AggregateRoot
         ];
     }
 
+    public static function fromPrimitives(array $primitives): Customer
+    {
+        return new self(
+            $primitives['id'],
+            $primitives['name'],
+        );
+    }
+
     public static function create(string $name): self
     {
-        $customer = new self(CustomerId::generate()->value(), $name);
-        // TODO generate event
-        return $customer;
+        return new self(CustomerId::generate()->value(), $name);
     }
 }

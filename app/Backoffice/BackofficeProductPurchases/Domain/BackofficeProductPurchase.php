@@ -4,7 +4,6 @@ namespace App\Backoffice\BackofficeProductPurchases\Domain;
 
 
 use App\Backoffice\BackofficeProductPurchases\Domain\Entity\BackofficeProductPurchaseBuyer;
-use App\Backoffice\BackofficeProductPurchases\Domain\Event\ProductPurchaseCreated;
 use App\Backoffice\BackofficeProductPurchases\Domain\Exception\OutOfStock;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseBuyerEmail;
 use App\Backoffice\BackofficeProductPurchases\Domain\ValueObject\BackofficeProductPurchaseBuyerName;
@@ -164,11 +163,10 @@ class BackofficeProductPurchase extends AggregateRoot
     ): self
     {
         $price = BackofficeProductPurchasePrice::create(round($quantity->value() * $unitPrice->value(), 2));
-
         $id = BackofficeProductPurchaseId::generate();
         $on = DateTimeValueObject::create(new DateTimeImmutable());
 
-        $purchase = new self(
+        return new self(
             id: $id,
             productId: $productId,
             creatorId: $creatorId,
@@ -179,9 +177,5 @@ class BackofficeProductPurchase extends AggregateRoot
             buyer: $buyer,
             purchaseAt: $on,
         );
-
-        $purchase->record(new ProductPurchaseCreated($id->value(), $on->value()));
-
-        return $purchase;
     }
 }

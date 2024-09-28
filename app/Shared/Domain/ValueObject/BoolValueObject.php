@@ -12,7 +12,7 @@ namespace App\Shared\Domain\ValueObject;
  *
  * @package App\Shared\Domain\ValueObject
  */
-abstract class BoolValueObject
+class BoolValueObject
 {
     /**
      * @var bool The boolean value of the value object.
