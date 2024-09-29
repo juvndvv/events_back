@@ -33,6 +33,22 @@ abstract class Controller
         );
     }
 
+    protected function badRequest(string $message = ''): JsonResponse
+    {
+        return new JsonResponse(
+            data: [ 'message' => $message],
+            status: Response::HTTP_BAD_REQUEST,
+        );
+    }
+
+    protected function unprocessableEntity(array $errors = [], string $message = ''): JsonResponse
+    {
+        return new JsonResponse(
+            data: [ 'message' => $message, 'errors' => $errors],
+            status: Response::HTTP_UNPROCESSABLE_ENTITY,
+        );
+    }
+
     protected function internalServerError(?string $message = null): JsonResponse
     {
         return new JsonResponse(

@@ -18,11 +18,12 @@ class Customer extends AggregateRoot
     public function __construct(
         string $id,
         string $name,
+        bool $active,
     )
     {
         $this->id = CustomerId::create($id);
         $this->name = CustomerName::create($name);
-        $this->isActive = BoolValueObject::create(false);
+        $this->isActive = BoolValueObject::create($active);
     }
 
     public function getId(): string
@@ -73,6 +74,7 @@ class Customer extends AggregateRoot
         return [
             'id' => $this->id->value(),
             'name' => $this->name->value(),
+            'active' => $this->isActive->value(),
         ];
     }
 
@@ -81,11 +83,12 @@ class Customer extends AggregateRoot
         return new self(
             $primitives['id'],
             $primitives['name'],
+            $primitives['active']
         );
     }
 
     public static function create(string $name): self
     {
-        return new self(CustomerId::generate()->value(), $name);
+        return new self(CustomerId::generate()->value(), $name, false);
     }
 }

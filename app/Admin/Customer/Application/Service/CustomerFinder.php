@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Admin\Customer\Domain\Service;
+namespace App\Admin\Customer\Application\Service;
 
 use App\Admin\Customer\Domain\Customer;
 use App\Admin\Customer\Domain\Port\CustomerRepository;

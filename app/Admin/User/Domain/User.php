@@ -3,6 +3,8 @@
 namespace App\Admin\User\Domain;
 
 
+use App\Admin\User\Domain\Exception\UserAlreadyActivated;
+use App\Admin\User\Domain\Exception\UserAlreadyDeactivated;
 use App\Shared\Domain\AggregateRoot;
 use App\Shared\Domain\Event\User\UserEmailUpdated;
 use App\Shared\Domain\Event\User\UserNameUpdated;
@@ -27,7 +29,7 @@ class User extends AggregateRoot
         string $name,
         string $email,
         string $password,
-        string $customerId
+        string $customerId,
     )
     {
         $this->id = UserId::create($id);
@@ -73,6 +75,24 @@ class User extends AggregateRoot
         return !$this->isActive();
     }
 
+    public function activate(): void
+    {
+        if ($this->isActive()) {
+            throw new UserAlreadyActivated($this);
+        }
+
+        $this->isActive = BoolValueObject::create(true);
+    }
+
+    public function deactivate(): void
+    {
+        if ($this->isDeactivated()) {
+            throw new UserAlreadyDeactivated($this);
+        }
+
+        $this->isActive = BoolValueObject::create(false);
+    }
+
     public function updateName(string $name): void
     {
         $this->name = UserName::create($name);
@@ -97,6 +117,7 @@ class User extends AggregateRoot
             'name' => $this->getName(),
             'email' => $this->getEmail(),
             'password' => $this->getPassword(),
+            'customer_id' => $this->customerId->value()
         ];
     }
 
@@ -107,7 +128,7 @@ class User extends AggregateRoot
             name: $primitives['name'],
             email: $primitives['email'],
             password: $primitives['password'],
-            customerId: $primitives['customerId'],
+            customerId: $primitives['customer_id'],
         );
     }
 

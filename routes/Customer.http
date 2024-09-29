@@ -7,3 +7,17 @@ Content-Type: application/json
 }
 
 ###
+PUT http://localhost/api/admin/customers/8dbf0310-9285-46d5-88b3-6950a15c0938/activate
+###
+PUT http://localhost/api/admin/customers/8dbf0310-9285-46d5-88b3-6950a15c0938/deactivate
+###
+POST http://localhost/api/admin/customers/8dbf0310-9285-46d5-88b3-6950a15c0938/users
+Content-Type: application/json
+
+{
+    "name": "Jorge",
+    "email": "jd.forner@yurest.com",
+    "password": "12342@asaslknA5"
+}
+###
+GET http://localhost/api/admin/users/ef205de7-4228-4b29-8ecc-0ae6e8571637

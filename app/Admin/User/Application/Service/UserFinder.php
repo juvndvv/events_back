@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Admin\User\Domain\Services;
+namespace App\Admin\User\Application\Service;
 
-use App\Backoffice\User\Domain\Port\UserRepository;
-use App\Backoffice\User\Domain\User;
+use App\Admin\User\Domain\Port\UserRepository;
+use App\Admin\User\Domain\User;
 
 class UserFinder
 {
@@ -15,7 +15,7 @@ class UserFinder
 
     public function findById(string $id): ?User
     {
-        return $this->userRepository->search($id);
+        return $this->userRepository->searchById($id);
     }
 
     public function findByEmail(string $email): ?User

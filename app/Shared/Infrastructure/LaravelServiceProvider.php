@@ -4,7 +4,6 @@ namespace App\Shared\Infrastructure;
 
 use App\Shared\Infrastructure\Configuration\ServiceProvider\AbstractServiceProvider;
 use Illuminate\Support\ServiceProvider;
-use Psy\Util\Str;
 
 class LaravelServiceProvider extends ServiceProvider
 {
