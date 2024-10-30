@@ -3,7 +3,7 @@
 namespace App\Store\ProductPurchases\Domain;
 
 use App\Shared\Domain\AggregateRoot;
-use App\Shared\Domain\Identifier\ProductId;
+use App\Shared\Domain\ValueObject\ProductId;
 use App\Store\ProductPurchases\Domain\Entity\BackofficeProductPurchaseBuyer;
 use App\Store\ProductPurchases\Domain\Event\ProductPurchaseCreated;
 use App\Store\ProductPurchases\Domain\ValueObject\BackofficeProductPurchaseDateTime;

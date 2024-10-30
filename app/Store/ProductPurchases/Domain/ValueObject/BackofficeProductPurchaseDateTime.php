@@ -2,9 +2,9 @@
 
 namespace App\Store\ProductPurchases\Domain\ValueObject;
 
-use App\Shared\Domain\ValueObject\DateTimeValueObject;
+use App\Shared\Domain\ValueObject\DateTimezone;
 
-class BackofficeProductPurchaseDateTime extends DateTimeValueObject
+class BackofficeProductPurchaseDateTime extends DateTimezone
 {
 
 }

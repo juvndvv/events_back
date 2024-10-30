@@ -3,135 +3,124 @@
 namespace App\Backoffice\Products\Domain;
 
 use App\Backoffice\Products\Domain\Event\ProductCreatedEvent;
-use App\Backoffice\Products\Domain\Event\ProductDeletedEvent;
+use App\Backoffice\Products\Domain\ValueObject\OptionalProductDescription;
 use App\Backoffice\Products\Domain\ValueObject\ProductDescription;
-use App\Backoffice\Products\Domain\ValueObject\ProductImage;
 use App\Backoffice\Products\Domain\ValueObject\ProductName;
-use App\Backoffice\Products\Domain\ValueObject\ProductPrice;
 use App\Backoffice\Products\Domain\ValueObject\ProductTotalSales;
 use App\Shared\Domain\AggregateRoot;
-use App\Shared\Domain\Identifier\ProductId;
-use App\Shared\Domain\Identifier\UserId;
-use App\Shared\Domain\ValueObject\DateTimeValueObject;
-use DateTimeImmutable;
+use App\Shared\Domain\ValueObject\Currency;
+use App\Shared\Domain\ValueObject\DateTimeZoneValueObject;
+use App\Shared\Domain\ValueObject\IntegerValueObject;
+use App\Shared\Domain\ValueObject\ProductId;
+use App\Shared\Domain\ValueObject\UserId;
 
 class Product extends AggregateRoot
 {
-    private readonly ?ProductId $id;
-    private readonly ?ProductName $name;
-    private readonly ?ProductPrice $price;
-    private readonly ?ProductDescription $description;
-    private readonly ?ProductImage $image;
-    private readonly ?ProductTotalSales $totalSales;
-    private readonly ?UserId $creator;
-    private DateTimeValueObject $deletedAt;
+    private readonly ProductId $id;
+    private readonly ProductName $name;
+    private readonly Currency $price;
+    private readonly OptionalProductDescription $description;
+    private readonly IntegerValueObject $totalSales;
+    private readonly UserId $creator;
+    private readonly DateTimeZoneValueObject $createdAt;
 
     protected function __construct(
-        ?ProductId          $id = null,
-        ?ProductName        $name = null,
-        ?ProductDescription $description = null,
-        ?ProductImage       $image = null,
-        ?ProductPrice       $price = null,
-        ?ProductTotalSales  $totalSales = null,
-        ?UserId             $creatorId = null,
+        ProductId                  $id,
+        ProductName                $name,
+        OptionalProductDescription $description,
+        Currency                   $price,
+        ProductTotalSales          $totalSales,
+        UserId                     $creator,
+        DateTimeZoneValueObject    $createdAt,
     )
     {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
-        $this->image = $image;
         $this->price = $price;
         $this->totalSales = $totalSales;
-        $this->creator = $creatorId;
+        $this->creator = $creator;
+        $this->createdAt = $createdAt;
     }
 
-    public function getId(): string
+    public function id(): ProductId
     {
-        return $this->id->value();
+        return $this->id;
     }
 
-    public function getName(): string
+    public function name(): ProductName
     {
-        return $this->name->value();
+        return $this->name;
     }
 
-    public function getDescription(): string
+    public function description(): OptionalProductDescription
     {
-        return $this->description->value();
+        return $this->description;
     }
 
-    public function getImage(): string
+    public function price(): Currency
     {
-        return $this->image->value();
+        return $this->price;
     }
 
-    public function getPrice(): string
+    public function getTotalSales(): IntegerValueObject
     {
-        return $this->price->value();
+        return $this->totalSales;
     }
 
-    public function getTotalSales(): int
+    public function creatorId(): UserId
     {
-        return $this->totalSales->value();
+        return $this->creator;
     }
 
-    public function getCreatorId()
-    {
-        return $this->creator->value();
-    }
 
-    public function isDeleted(): bool
+    public function createdAt(): DateTimeZoneValueObject
     {
-        return $this->deletedAt->value() !== null;
-    }
-
-    public function delete(): void
-    {
-        $this->deletedAt = DateTimeValueObject::create(new DateTimeImmutable());
-        $this->record(new ProductDeletedEvent());
+        return $this->createdAt;
     }
 
     public function toPrimitives(): array
     {
         return [
-            'id' => $this->getId(),
-            'name' => $this->getName(),
-            'description' => $this->getDescription(),
-            'image' => $this->getImage(),
-            'price' => $this->getPrice(),
-            'total_sales' => $this->getTotalSales(),
-            'creator_id' => $this->getCreatorId(),
+            'id' => $this->id()->value(),
+            'name' => $this->name()->value(),
+            'description' => $this->description()->orElseNull(),
+            'price' => $this->price()->amount(),
+            'total_sales' => $this->getTotalSales()->value(),
+            'created_by' => $this->creatorId()->value(),
+            'created_at' => $this->createdAt()->toUtc(),
         ];
     }
 
     public static function fromPrimitives(array $primitives): Product
     {
         return new self(
-            ProductId::create($primitives['id']),
-            ProductName::create($primitives['name']),
-            ProductDescription::create($primitives['description']),
-            ProductImage::create($primitives['image']),
-            ProductPrice::create($primitives['price']),
-            ProductTotalSales::create($primitives['total_sales']),
-            UserId::create($primitives['creator_id']),
+            id: ProductId::create($primitives['id']),
+            name: ProductName::create($primitives['name']),
+            description: OptionalProductDescription::ofNullableWith($primitives['description'], fn() => ProductDescription::create($primitives['description'])),
+            price: Currency::create($primitives['price']),
+            totalSales: ProductTotalSales::create($primitives['total_sales']),
+            creator: UserId::create($primitives['created_by']),
+            createdAt: DateTimeZoneValueObject::fromUtc($primitives['created_at']),
         );
     }
 
     public static function create(
-        ProductName $name,
-        ProductDescription $description,
-        ProductImage $image,
-        ProductPrice $price,
-        UserId $creatorId
-    ): self {
+        ProductId                  $id,
+        ProductName                $name,
+        OptionalProductDescription $description,
+        Currency                   $price,
+        UserId                     $creatorId
+    ): self
+    {
         $new = new self(
-            id: ProductId::generate(),
+            id: $id,
             name: $name,
             description: $description,
-            image: $image,
             price: $price,
             totalSales: ProductTotalSales::create(0),
-            creatorId: $creatorId,
+            creator: $creatorId,
+            createdAt: DateTimeZoneValueObject::now()
         );
 
         $new->record(new ProductCreatedEvent());

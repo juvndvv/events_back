@@ -2,11 +2,14 @@
 
 namespace App\Backoffice\Products\Application\Delete;
 
-class DeleteProductCommand
+use App\Shared\Domain\ValueObject\ProductId;
+use App\Shared\Domain\ValueObject\UserId;
+
+readonly class DeleteProductCommand
 {
     private function __construct(
-        public readonly string $id,
-        public readonly string $deleterId
+        public ProductId $id,
+        public UserId $deleterId
     )
     {
     }
@@ -15,6 +18,9 @@ class DeleteProductCommand
         string $id,
         string $deleterId
     ): self {
-        return new self($id, $deleterId);
+        return new self(
+            ProductId::create($id),
+            UserId::create($deleterId)
+        );
     }
 }

@@ -4,17 +4,17 @@ namespace App\Backoffice\Products\Application\Delete;
 
 use App\Backoffice\Products\Domain\Service\ProductRemover;
 
-class DeleteProductCommandHandler
+readonly class DeleteProductCommandHandler
 {
     public function __construct(
-        private readonly ProductRemover $productRemover
+        private ProductRemover $productRemover
     )
     {
     }
 
     public function __invoke(DeleteProductCommand $command): void
     {
-        $product = $this->productRemover->__invoke($command->id);
+        $product = $this->productRemover->removeById($command->id);
         // TODO publish domain event
     }
 }

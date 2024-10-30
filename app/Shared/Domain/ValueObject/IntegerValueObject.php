@@ -16,7 +16,7 @@ use App\Shared\Domain\Exceptions\InvalidArgumentException;
  *
  * @package App\Shared\Domain\ValueObject
  */
-abstract class IntegerValueObject
+class IntegerValueObject
 {
     /**
      * @var int The integer value of the value object.
@@ -30,7 +30,7 @@ abstract class IntegerValueObject
      *
      * @throws InvalidArgumentException If the provided value is not a valid integer.
      */
-    private function __construct(int $value, ?int $min = null, ?int $max = null)
+    protected function __construct(int $value, ?int $min = null, ?int $max = null)
     {
         $this->ensureIsValid($value, $min, $max);
         $this->value = $value;

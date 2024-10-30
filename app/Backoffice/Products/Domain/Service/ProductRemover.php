@@ -5,12 +5,13 @@ namespace App\Backoffice\Products\Domain\Service;
 use App\Backoffice\Products\Domain\Exceptions\ProductDoesntExist;
 use App\Backoffice\Products\Domain\Port\ProductRepository;
 use App\Backoffice\Products\Domain\Product;
+use App\Shared\Domain\ValueObject\ProductId;
 
-class ProductRemover
+readonly class ProductRemover
 {
     public function __construct(
-        private readonly ProductRepository $repository,
-        private readonly ProductFinder $finder
+        private ProductRepository $repository,
+        private ProductSearcher $searcher
     )
     {
     }
@@ -18,17 +19,19 @@ class ProductRemover
     /**
      * @throws ProductDoesntExist
      */
-    public function __invoke(string $id): Product
+    public function removeById(ProductId $id): Product
     {
-        $product = $this->finder->__invoke($id);
-
-        if (null === $product) {
-            throw new ProductDoesntExist();
-        }
-
+        $product = $this->retrieveProductOrFail($id);
         $this->repository->delete($product);
-        $product->delete();
 
         return $product;
+    }
+
+    private function retrieveProductOrFail(ProductId $id): Product
+    {
+        return $this->searcher
+            ->searchById($id)
+            ->ifNotPresent(fn () => throw new ProductDoesntExist())
+            ->get();
     }
 }

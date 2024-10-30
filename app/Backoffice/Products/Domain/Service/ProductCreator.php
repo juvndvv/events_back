@@ -5,43 +5,49 @@ namespace App\Backoffice\Products\Domain\Service;
 use App\Backoffice\Products\Domain\Exceptions\ProductAlreadyExists;
 use App\Backoffice\Products\Domain\Port\ProductRepository;
 use App\Backoffice\Products\Domain\Product;
-use App\Backoffice\Products\Domain\ValueObject\ProductDescription;
-use App\Backoffice\Products\Domain\ValueObject\ProductImage;
+use App\Backoffice\Products\Domain\ValueObject\OptionalProductDescription;
 use App\Backoffice\Products\Domain\ValueObject\ProductName;
-use App\Backoffice\Products\Domain\ValueObject\ProductPrice;
-use App\Shared\Domain\Identifier\UserId;
+use App\Shared\Domain\ValueObject\Currency;
+use App\Shared\Domain\ValueObject\ProductId;
+use App\Shared\Domain\ValueObject\UserId;
 
-class ProductCreator
+readonly class ProductCreator
 {
     public function __construct(
-        private readonly ProductFinder $finder,
-        private readonly ProductRepository $repository
+        private ProductSearcher   $searcher,
+        private ProductRepository $repository
     )
     {
     }
 
-    public function __invoke(
-        ProductName $name,
-        ProductDescription $description,
-        ProductImage $image,
-        ProductPrice $price,
-        UserId $creatorId
-    ): Product {
-        $product = Product::create($name, $description, $image, $price, $creatorId);
+    public function create(
+        ProductId                  $id,
+        ProductName                $name,
+        OptionalProductDescription $description,
+        Currency                   $price,
+        UserId                     $creatorId
+    ): Product
+    {
+        $product = Product::create(
+            id: $id,
+            name: $name,
+            description: $description,
+            price: $price,
+            creatorId: $creatorId
+        );
 
-        $this->ensureProductDoesntExists($product->getId());
+        $this->ensureProductDoesntExists($product->id());
 
         $this->repository->save($product);
 
         return $product;
     }
 
-    private function ensureProductDoesntExists(string $id): void
+    private function ensureProductDoesntExists(ProductId $id): void
     {
-        $product = $this->finder->__invoke($id);
-
-        if (null !== $product) {
-            throw new ProductAlreadyExists();
-        }
+        $this
+            ->searcher
+            ->searchById($id)
+            ->ifPresent(fn() => throw new ProductAlreadyExists($id));
     }
 }

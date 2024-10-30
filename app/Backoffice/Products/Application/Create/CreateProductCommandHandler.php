@@ -3,29 +3,27 @@
 namespace App\Backoffice\Products\Application\Create;
 
 use App\Backoffice\Products\Domain\Service\ProductCreator;
-use App\Backoffice\Products\Domain\ValueObject\ProductDescription;
-use App\Backoffice\Products\Domain\ValueObject\ProductImage;
-use App\Backoffice\Products\Domain\ValueObject\ProductName;
-use App\Backoffice\Products\Domain\ValueObject\ProductPrice;
-use App\Shared\Domain\Identifier\UserId;
+use App\Shared\Domain\Service\Validator\Validator;
 
-class CreateProductCommandHandler
+readonly class CreateProductCommandHandler
 {
     public function __construct(
-        private readonly ProductCreator $productCreator
+        private Validator $validator,
+        private ProductCreator $productCreator
     )
     {
     }
 
     public function __invoke(CreateProductCommand $command): void
     {
-        $product = $this->productCreator->__invoke(
-            name: ProductName::create($command->name),
-            description: ProductDescription::create($command->description),
-            image: ProductImage::create($command->image),
-            price: ProductPrice::create($command->price),
-            creatorId: UserId::create($command->creatorId)
+        $this->validator->validateOrFail($command);
+
+        $this->productCreator->create(
+            id: $command->id(),
+            name: $command->name(),
+            description: $command->description(),
+            price: $command->price(),
+            creatorId: $command->creatorId()
         );
-        // TODO publish domain event
     }
 }
