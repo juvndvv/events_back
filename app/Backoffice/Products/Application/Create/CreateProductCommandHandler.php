@@ -2,7 +2,7 @@
 
 namespace App\Backoffice\Products\Application\Create;
 
-use App\Backoffice\Products\Domain\Service\ProductCreator;
+use App\Backoffice\Products\Application\Service\ProductCreator;
 use App\Shared\Domain\Service\Validator\Validator;
 
 readonly class CreateProductCommandHandler

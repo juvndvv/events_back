@@ -1,25 +1,26 @@
 <?php
 
-namespace App\Backoffice\Products\Application\Create;
+declare(strict_types=1);
+
+namespace App\Backoffice\Products\Application\Update;
+
 
 use App\Backoffice\Products\Domain\ValueObject\OptionalProductDescription;
+use App\Backoffice\Products\Domain\ValueObject\OptionalProductName;
 use App\Backoffice\Products\Domain\ValueObject\ProductName;
 use App\Shared\Domain\ValueObject\Currency;
+use App\Shared\Domain\ValueObject\OptionalCurrency;
 use App\Shared\Domain\ValueObject\ProductId;
-use App\Shared\Domain\ValueObject\UserId;
 use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Uuid;
 
-readonly class CreateProductCommand
+readonly class UpdateProductCommand
 {
     private function __construct(
 
         #[Uuid]
-        #[NotBlank]
         private ?string $id,
 
-        #[NotBlank]
         #[Length(min: 3, max: 50)]
         private ?string $name,
 
@@ -27,10 +28,6 @@ readonly class CreateProductCommand
         private ?string $description,
 
         private ?string $price,
-
-        #[Uuid]
-        #[NotBlank]
-        private ?string $creatorId,
     )
     {
     }
@@ -40,9 +37,9 @@ readonly class CreateProductCommand
         return ProductId::create($this->id);
     }
 
-    public function name(): ProductName
+    public function name(): OptionalProductName
     {
-        return ProductName::create($this->name);
+        return OptionalProductName::ofNullableWith($this->name, fn ($name) => ProductName::create($name));
     }
 
     public function description(): OptionalProductDescription
@@ -50,14 +47,9 @@ readonly class CreateProductCommand
         return OptionalProductDescription::ofNullable($this->description);
     }
 
-    public function price(): Currency
+    public function price(): OptionalCurrency
     {
-        return Currency::createFromString($this->price);
-    }
-
-    public function creatorId(): UserId
-    {
-        return UserId::create($this->creatorId);
+        return OptionalCurrency::ofNullableWith($this->price, fn ($price) => Currency::createFromString($price));
     }
 
     public static function create(
@@ -65,7 +57,6 @@ readonly class CreateProductCommand
         ?string $name,
         ?string $description,
         ?float  $price,
-        ?string $creatorId,
     ): self
     {
         return new self (
@@ -73,7 +64,6 @@ readonly class CreateProductCommand
             name: $name,
             description: $description,
             price: $price,
-            creatorId: $creatorId
         );
     }
 }

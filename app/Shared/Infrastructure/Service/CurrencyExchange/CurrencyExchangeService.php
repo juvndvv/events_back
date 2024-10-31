@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Infrastructure\Service;
+namespace App\Shared\Infrastructure\Service\CurrencyExchange;
 
 
 use App\Shared\Domain\Exceptions\AppException;

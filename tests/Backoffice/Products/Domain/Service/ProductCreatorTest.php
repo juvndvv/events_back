@@ -2,12 +2,12 @@
 
 namespace Tests\Backoffice\Products\Domain\Service;
 
+use App\Backoffice\Products\Application\Service\ProductCreator;
+use App\Backoffice\Products\Application\Service\ProductSearcher;
 use App\Backoffice\Products\Domain\Exceptions\ProductAlreadyExists;
 use App\Backoffice\Products\Domain\OptionalProduct;
 use App\Backoffice\Products\Domain\Port\ProductRepository;
 use App\Backoffice\Products\Domain\Product;
-use App\Backoffice\Products\Domain\Service\ProductCreator;
-use App\Backoffice\Products\Domain\Service\ProductSearcher;
 use Tests\Backoffice\Products\Domain\ProductMother;
 use Tests\TestCase;
 

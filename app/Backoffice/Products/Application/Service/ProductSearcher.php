@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Backoffice\Products\Domain\Service;
+namespace App\Backoffice\Products\Application\Service;
 
 use App\Backoffice\Products\Domain\OptionalProduct;
 use App\Backoffice\Products\Domain\Port\ProductRepository;

@@ -29,9 +29,9 @@ abstract class StringValueObject
      *
      * @throws InvalidArgumentException If the provided value is not valid.
      */
-    protected function __construct(string $value, ?int $minLength = null, ?int $maxLength = null)
+    protected function __construct(string $value, ?int $minLength = null, ?int $maxLength = null, bool $allowEmpty = false)
     {
-        $this->ensureIsValid($value);
+        $this->ensureIsValid($value, $minLength, $maxLength, $allowEmpty);
         $this->value = $value;
     }
 
@@ -44,21 +44,25 @@ abstract class StringValueObject
      *
      * @throws InvalidArgumentException If the value is not valid.
      */
-    protected function ensureIsValid(string $value): void
+    protected function ensureIsValid(string $value, int $minLength, int $maxLength, bool $allowEmpty): void
     {
-        if (empty($value)) {
+        if (!$allowEmpty && empty($value)) {
             throw new InvalidArgumentException("Value cannot be empty.");
+        }
+
+        if (strlen($value) < $minLength || strlen($value) > $maxLength) {
+            throw new InvalidArgumentException("Value is not in range [$minLength, $maxLength].]");
         }
     }
 
     /**
      * Gets the value of the object as a string.
      *
-     * @return string The value of the object.
+     * @return string|null The value of the object.
      */
-    public function value(): string
+    public function value(): ?string
     {
-        return $this->value;
+        return empty($this->value) ? null : $this->value;
     }
 
     /**
@@ -89,11 +93,12 @@ abstract class StringValueObject
      * @param string $value
      * @param int|null $min
      * @param int|null $max
+     * @param bool $allowEmpty
      * @return StringValueObject
      * @throws InvalidArgumentException
      */
-    protected static function doCreate(string $value, ?int $min = null, ?int $max = null): static
+    protected static function doCreate(string $value, ?int $min = null, ?int $max = null, bool $allowEmpty = false): static
     {
-        return new static($value);
+        return new static($value, $min, $max, $allowEmpty);
     }
 }
