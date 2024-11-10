@@ -16,13 +16,13 @@ use App\Shared\Domain\ValueObject\UserId;
 
 class Product extends AggregateRoot
 {
-    private readonly ProductId $id;
-    private readonly ProductName $name;
-    private readonly Currency $price;
-    private readonly OptionalProductDescription $description;
-    private readonly IntegerValueObject $totalSales;
-    private readonly UserId $creator;
-    private readonly DateTimeZoneValueObject $createdAt;
+    private ProductId $id;
+    private ProductName $name;
+    private Currency $price;
+    private OptionalProductDescription $description;
+    private IntegerValueObject $totalSales;
+    private UserId $creator;
+    private DateTimeZoneValueObject $createdAt;
 
     protected function __construct(
         ProductId                  $id,
@@ -53,14 +53,29 @@ class Product extends AggregateRoot
         return $this->name;
     }
 
+    public function updateName(ProductName $name): void
+    {
+        $this->name = $name;
+    }
+
     public function description(): OptionalProductDescription
     {
         return $this->description;
     }
 
+    public function updateDescription(OptionalProductDescription $description): void
+    {
+        $this->description = $description;
+    }
+
     public function price(): Currency
     {
         return $this->price;
+    }
+
+    public function updatePrice(Currency $price): void
+    {
+        $this->price = $price;
     }
 
     public function getTotalSales(): IntegerValueObject
@@ -98,7 +113,7 @@ class Product extends AggregateRoot
             id: ProductId::create($primitives['id']),
             name: ProductName::create($primitives['name']),
             description: OptionalProductDescription::ofNullableWith($primitives['description'], fn() => ProductDescription::create($primitives['description'])),
-            price: Currency::create($primitives['price']),
+            price: Currency::createFromString($primitives['price']),
             totalSales: ProductTotalSales::create($primitives['total_sales']),
             creator: UserId::create($primitives['created_by']),
             createdAt: DateTimeZoneValueObject::fromUtc($primitives['created_at']),

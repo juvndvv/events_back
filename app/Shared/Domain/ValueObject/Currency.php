@@ -196,7 +196,7 @@ class Currency
 
     public static function createFromString(string $currencyStr): Currency
     {
-        $exploded = explode('|', $currencyStr);
+        $exploded = explode(' ', $currencyStr);
 
         if (count($exploded) != 2) {
             throw new InvalidArgumentException("Invalid currency string: $currencyStr");

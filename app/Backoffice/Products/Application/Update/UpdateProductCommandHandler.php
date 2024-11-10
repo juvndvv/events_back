@@ -7,10 +7,10 @@ namespace App\Backoffice\Products\Application\Update;
 
 use App\Shared\Domain\Service\Validator\Validator;
 
-class UpdateProductCommandHandler
+readonly class UpdateProductCommandHandler
 {
     public function __construct(
-        private readonly Validator $validator
+        private Validator $validator
     )
     {
     }

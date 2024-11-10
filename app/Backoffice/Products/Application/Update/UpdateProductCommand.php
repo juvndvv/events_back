@@ -11,6 +11,8 @@ use App\Backoffice\Products\Domain\ValueObject\ProductName;
 use App\Shared\Domain\ValueObject\Currency;
 use App\Shared\Domain\ValueObject\OptionalCurrency;
 use App\Shared\Domain\ValueObject\ProductId;
+use Symfony\Component\Validator\Constraints\AtLeastOneOf;
+use Symfony\Component\Validator\Constraints\Blank;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Uuid;
 
@@ -24,7 +26,10 @@ readonly class UpdateProductCommand
         #[Length(min: 3, max: 50)]
         private ?string $name,
 
-        #[Length(min: 3, max: 1200)]
+        #[AtLeastOneOf([
+            new Blank(),
+            new Length(min: 3, max: 50),
+        ])]
         private ?string $description,
 
         private ?string $price,
