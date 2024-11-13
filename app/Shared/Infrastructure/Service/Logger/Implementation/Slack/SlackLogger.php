@@ -5,20 +5,21 @@ declare(strict_types=1);
 namespace App\Shared\Infrastructure\Service\Logger\Implementation\Slack;
 
 
+use App\Shared\Infrastructure\Service\HttpClient\HttpClient;
+use App\Shared\Infrastructure\Service\HttpClient\Method;
 use App\Shared\Infrastructure\Service\Logger\Implementation\LoggerStrategy;
 use App\Shared\Infrastructure\Service\Logger\LogLevel;
 use App\Shared\Infrastructure\Service\Logger\LogMessage;
 use Exception;
-use GuzzleHttp\Client;
 
 readonly class SlackLogger implements LoggerStrategy
 {
-    private Client $httpClient;
+    private HttpClient $httpClient;
 
     private string $url;
 
     public function __construct(
-        Client $client,
+        HttpClient $client,
     )
     {
         $this->httpClient = $client;
@@ -30,12 +31,11 @@ readonly class SlackLogger implements LoggerStrategy
         $request = SlackLoggerRequest::create($message);
         $payload = $request->getPayload();
 
-        try {
-            $this->httpClient->post($this->url, $payload);
-
-        } catch (Exception $e) {
-            error_log('Error al enviar el mensaje a Slack: ' . $e->getMessage());
-        }
+        $this->httpClient
+            ->setUri($this->url)
+            ->setMethod(Method::POST)
+            ->addBodyParams($payload)
+            ->send();
     }
 
     public function supports(LogLevel $level): array

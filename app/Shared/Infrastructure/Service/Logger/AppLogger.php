@@ -15,12 +15,10 @@ class AppLogger implements Logger
     private array $loggers;
 
     public function __construct(
-        LaravelLogger $laravelLogger,
         SlackLogger $slackLogger,
     )
     {
         $this->loggers = [
-            $laravelLogger,
             $slackLogger
         ];
     }

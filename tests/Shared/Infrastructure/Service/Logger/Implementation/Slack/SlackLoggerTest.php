@@ -32,5 +32,7 @@ class SlackLoggerTest extends TestCase
         );
 
         $this->logger->log($message);
+
+        $this->expectNotToPerformAssertions();
     }
 }

@@ -18,11 +18,9 @@ readonly class SlackLoggerRequest
     public function getPayload(): array
     {
         return [
-            "json" => [
-                'username' => $this->message->getAppName(),
-                "icon_emoji" => ":ghost:",
-                'text' => $this->message->__toString(),
-            ],
+            'username' => $this->message->getAppName(),
+            "icon_emoji" => ":ghost:",
+            'text' => $this->message->__toString(),
         ];
     }
 
