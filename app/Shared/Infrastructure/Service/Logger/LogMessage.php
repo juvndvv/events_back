@@ -22,6 +22,11 @@ readonly class LogMessage
         return $this->application;
     }
 
+    public function getLevel(): LogLevel
+    {
+        return $this->level;
+    }
+
     public function getLog(): array
     {
         return [

@@ -43,6 +43,9 @@ readonly class SlackLogger implements LoggerStrategy
         return [
             LogLevel::CRITICAL,
             LogLevel::ERROR,
+            LogLevel::WARNING,
+            LogLevel::INFO,
+            LogLevel::DEBUG,
         ];
     }
 }
