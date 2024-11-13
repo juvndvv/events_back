@@ -32,7 +32,7 @@ class LaravelServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $result = [];
         $baseNamespace = 'App\\';
-        $basePath = app_path('Backoffice');
+        $basePath = app_path();
         $directories = File::directories($basePath);
 
         foreach ($directories as $directory) {
