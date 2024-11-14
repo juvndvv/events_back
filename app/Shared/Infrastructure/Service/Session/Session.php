@@ -16,6 +16,8 @@ class Session
     private ?DateTimeImmutable $requestEndTime = null;
     private ?float $requestDuration = null;
     private ?string $endpoint = null;
+    private int $queriesExecuted = 0;
+    private int $totalQueriesTime = 0;
 
     public function __construct()
     {
@@ -79,5 +81,25 @@ class Session
     public function getRequestEndTime(): ?DateTimeImmutable
     {
         return $this->requestEndTime;
+    }
+
+    public function getQueriesExecuted(): int
+    {
+        return $this->queriesExecuted;
+    }
+
+    public function setQueriesExecuted(int $queriesExecuted): void
+    {
+        $this->queriesExecuted = $queriesExecuted;
+    }
+
+    public function getTotalQueryTime(): int
+    {
+        return $this->totalQueriesTime;
+    }
+
+    public function setTotalQueryTime(int $totalQueriesTime): void
+    {
+        $this->totalQueriesTime = $totalQueriesTime;
     }
 }

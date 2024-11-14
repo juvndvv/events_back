@@ -4,45 +4,65 @@ declare(strict_types=1);
 
 namespace App\Shared\Infrastructure\Middleware;
 
-
 use App\Shared\Infrastructure\Service\Session\Session;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class RequestTimingMiddleware
 {
     public function __construct(
         private readonly Session $session
-    )
-    {
-    }
+    ) {}
 
     /**
-     * Handle an incoming request.
+     * Handle an incoming request and measure performance metrics.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @param Closure $next
      * @return Response
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Registrar la hora de inicio y el endpoint
+        $this->startRequestLogging($request);
+        $this->startQueryLogging();
+
+        $response = $next($request);
+
+        $this->endRequestLogging();
+        $this->logQueryMetrics();
+
+        // TODO: Implementar la lógica de almacenamiento o procesamiento de la sesión
+
+        return $response;
+    }
+
+    private function startRequestLogging(Request $request): void
+    {
         $this->session->setRequestStartTime();
         $this->session->setEndpoint($request->path());
         $this->session->setIpAddress($request->ip());
+    }
 
-        // Procesar la solicitud
-        $response = $next($request);
+    private function startQueryLogging(): void
+    {
+        DB::enableQueryLog();
+    }
 
-        // Registrar la hora de finalización
+    private function endRequestLogging(): void
+    {
         $this->session->setRequestEndTime();
+    }
 
-        // Obtener la duración de la solicitud
-        $duration = $this->session->getRequestDuration();
+    private function logQueryMetrics(): void
+    {
+        $queries = DB::getQueryLog();
 
-        // TODO implementar que hacer con la session
+        $totalQueries = count($queries);
+        $totalQueryTime = array_reduce($queries, fn($carry, $query) => $carry + $query['time'], 0);
 
-        return $response;
+        $this->session->setQueriesExecuted($totalQueries);
+        $this->session->setTotalQueryTime($totalQueryTime);
     }
 }
