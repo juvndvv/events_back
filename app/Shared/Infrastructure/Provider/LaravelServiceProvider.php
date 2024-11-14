@@ -13,6 +13,8 @@ use App\Shared\Infrastructure\Service\HttpClient\AppHttpClient;
 use App\Shared\Infrastructure\Service\HttpClient\HttpClient;
 use App\Shared\Infrastructure\Service\Logger\AppLogger;
 use App\Shared\Infrastructure\Service\Logger\Logger;
+use App\Shared\Infrastructure\Service\Storage\Implementations\R2StorageImplementation;
+use App\Shared\Infrastructure\Service\Storage\Storage;
 use Illuminate\Support\Facades\File;
 
 class LaravelServiceProvider extends \Illuminate\Support\ServiceProvider
@@ -30,8 +32,9 @@ class LaravelServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $this->app->singleton(LaravelCommandBus::class, CommandBus::class);
         $this->app->singleton(LaravelQueryBus::class, QueryBus::class);
-        $this->app->singleton(Logger::class, AppLogger::class)  ;
+        $this->app->singleton(Logger::class, AppLogger::class);
         $this->app->singleton(HttpClient::class, AppHttpClient::class);
+        $this->app->singleton(Storage::class, R2StorageImplementation::class);
     }
 
     private function resolveProviders(): iterable

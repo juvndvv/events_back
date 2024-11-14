@@ -8,8 +8,7 @@ use App\Shared\Infrastructure\Service\Logger\LogMessage;
 use Tests\TestCase;
 
 /**
- * @group application-infra
- * @group logger
+ * @group production
  */
 class SlackLoggerTest extends TestCase
 {
