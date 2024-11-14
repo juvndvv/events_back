@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Domain\Exceptions;
+namespace App\Shared\Domain\Exception;
 
 
 class ValidationException extends \Exception

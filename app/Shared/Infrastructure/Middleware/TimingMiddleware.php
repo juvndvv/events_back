@@ -10,10 +10,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
-class RequestTimingMiddleware
+readonly class TimingMiddleware
 {
     public function __construct(
-        private readonly Session $session
+        private Session $session
     ) {}
 
     /**

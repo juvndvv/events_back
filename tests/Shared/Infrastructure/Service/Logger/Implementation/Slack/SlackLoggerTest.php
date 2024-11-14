@@ -2,6 +2,7 @@
 
 namespace Tests\Shared\Infrastructure\Service\Logger\Implementation\Slack;
 
+use App\Shared\Domain\Exception\LogicException;
 use App\Shared\Infrastructure\Service\Logger\Implementation\Slack\SlackLogger;
 use App\Shared\Infrastructure\Service\Logger\LogLevel;
 use App\Shared\Infrastructure\Service\Logger\LogMessage;

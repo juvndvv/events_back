@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Shared\Domain\ValueObject;
 
 
-use App\Shared\Domain\Exceptions\InvalidArgumentException;
+use App\Shared\Domain\Exception\InvalidArgumentException;
 
 /**
  * Class EmailValueObject
