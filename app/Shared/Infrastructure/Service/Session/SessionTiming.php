@@ -5,9 +5,10 @@ declare(strict_types=1);
 
 namespace App\Shared\Infrastructure\Service\Session;
 
+use App\Shared\Domain\Exception\LogicException;
 use DateTimeImmutable;
 
-class Session
+class SessionTiming
 {
     private string $id;
     private string $ipAddress;
@@ -15,9 +16,9 @@ class Session
     private ?DateTimeImmutable $requestStartTime = null;
     private ?DateTimeImmutable $requestEndTime = null;
     private ?float $requestDuration = null;
+    private ?float $queryDuration = null;
+    private ?float $executionDuration = null;
     private ?string $endpoint = null;
-    private int $queriesExecuted = 0;
-    private int $totalQueriesTime = 0;
 
     public function __construct()
     {
@@ -58,6 +59,16 @@ class Session
         }
     }
 
+    public function setQueryDuration(float $queryDuration): void
+    {
+        if (null === $this->requestDuration) {
+            throw new LogicException('Request duration cannot be null.');
+        }
+
+        $this->queryDuration = $queryDuration;
+        $this->executionDuration = $this->requestDuration - $this->queryDuration;
+    }
+
     public function getRequestDuration(): ?float
     {
         return $this->requestDuration;
@@ -83,23 +94,32 @@ class Session
         return $this->requestEndTime;
     }
 
-    public function getQueriesExecuted(): int
+    public function getRequestDurarion(): float
     {
-        return $this->queriesExecuted;
+        return $this->requestDuration;
     }
 
-    public function setQueriesExecuted(int $queriesExecuted): void
+    public function getQueryDuration(): ?int
     {
-        $this->queriesExecuted = $queriesExecuted;
+        return $this->queryDuration;
     }
 
-    public function getTotalQueryTime(): int
+    public function getExecutionDuration(): ?float
     {
-        return $this->totalQueriesTime;
+        return $this->executionDuration;
     }
 
-    public function setTotalQueryTime(int $totalQueriesTime): void
+    public function __toString(): string
     {
-        $this->totalQueriesTime = $totalQueriesTime;
+        return sprintf(
+            "Session ID: %s\nIP Address: %s\nCreated At: %s\nRequest Start Time: %s\nRequest End Time: %s\nRequest Duration: %s seconds\nEndpoint: %s",
+            $this->id,
+            $this->ipAddress ?? 'N/A',
+            $this->createdAt->format('Y-m-d H:i:s'),
+            $this->requestStartTime ? $this->requestStartTime->format('Y-m-d H:i:s') : 'N/A',
+            $this->requestEndTime ? $this->requestEndTime->format('Y-m-d H:i:s') : 'N/A',
+            $this->requestDuration !== null ? (string) $this->requestDuration : 'N/A',
+            $this->endpoint ?? 'N/A'
+        );
     }
 }
