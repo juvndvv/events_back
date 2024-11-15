@@ -63,7 +63,7 @@ abstract class Optional
     public function get()
     {
         if (!$this->isPresent()) {
-            throw new AppException("No value present");
+            throw new AppException('No value present');
         }
 
         return $this->value;

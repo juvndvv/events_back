@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Shared\Infrastructure\Service\Logger\Implementation\Slack;
 
-
 use App\Shared\Infrastructure\Service\HttpClient\HttpClient;
 use App\Shared\Infrastructure\Service\HttpClient\Method;
 use App\Shared\Infrastructure\Service\Logger\Implementation\LoggerStrategy;
 use App\Shared\Infrastructure\Service\Logger\LogLevel;
 use App\Shared\Infrastructure\Service\Logger\LogMessage;
-use Exception;
 
 readonly class SlackLogger implements LoggerStrategy
 {
@@ -20,8 +18,7 @@ readonly class SlackLogger implements LoggerStrategy
 
     public function __construct(
         HttpClient $client,
-    )
-    {
+    ) {
         $this->httpClient = $client;
         $this->url = config('services.slack.url');
     }

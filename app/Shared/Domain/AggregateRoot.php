@@ -2,7 +2,6 @@
 
 namespace App\Shared\Domain;
 
-
 class AggregateRoot
 {
     protected array $events = [];

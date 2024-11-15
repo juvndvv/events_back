@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Shared\Infrastructure\Service\Logger;
 
-
-use App\Shared\Infrastructure\Service\Logger\Implementation\Laravel\LaravelLogger;
 use App\Shared\Infrastructure\Service\Logger\Implementation\LoggerStrategy;
 use App\Shared\Infrastructure\Service\Logger\Implementation\Slack\SlackLogger;
 
@@ -16,8 +14,7 @@ class AppLogger implements Logger
 
     public function __construct(
         SlackLogger $slackLogger,
-    )
-    {
+    ) {
         $this->loggers = [
             $slackLogger
         ];

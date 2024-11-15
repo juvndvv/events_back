@@ -2,7 +2,6 @@
 
 namespace App\Shared\Domain\ValueObject;
 
-
 use App\Shared\Domain\Exception\InvalidArgumentException;
 
 class Currency
@@ -182,7 +181,7 @@ class Currency
         }
 
         if ($amount < 0) {
-            throw new InvalidArgumentException("Amount cannot be negative.");
+            throw new InvalidArgumentException('Amount cannot be negative.');
         }
 
         $this->amount = $amount;

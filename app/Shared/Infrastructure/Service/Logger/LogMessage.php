@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Shared\Infrastructure\Service\Logger;
 
-
 readonly class LogMessage
 {
     protected function __construct(
@@ -13,8 +12,7 @@ readonly class LogMessage
         private string   $application,
         private string   $context,
         private string   $message,
-    )
-    {
+    ) {
     }
 
     public function getAppName(): string
@@ -41,7 +39,7 @@ readonly class LogMessage
     public function __toString(): string
     {
         return sprintf(
-            "[%s] %s.%s in %s: %s",
+            '[%s] %s.%s in %s: %s',
             $this->level->toString(),
             $this->application,
             $this->environment,

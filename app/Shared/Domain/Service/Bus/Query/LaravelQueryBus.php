@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Shared\Domain\Service\Bus\Query;
 
 use Illuminate\Bus\Dispatcher;

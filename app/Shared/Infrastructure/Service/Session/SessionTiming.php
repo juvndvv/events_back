@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Shared\Infrastructure\Service\Session;
 
 use App\Shared\Domain\Exception\LogicException;

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Shared\Domain\ValueObject;
 
-
 use App\Shared\Domain\Exception\InvalidArgumentException;
 
 /**
@@ -47,7 +46,7 @@ abstract class StringValueObject
     protected function ensureIsValid(string $value, int $minLength, int $maxLength, bool $allowEmpty): void
     {
         if (!$allowEmpty && empty($value)) {
-            throw new InvalidArgumentException("Value cannot be empty.");
+            throw new InvalidArgumentException('Value cannot be empty.');
         }
 
         if (strlen($value) < $minLength || strlen($value) > $maxLength) {

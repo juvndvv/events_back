@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Shared\Infrastructure\Service\Logger\Implementation;
 
-
 use App\Shared\Infrastructure\Service\Logger\LogLevel;
 use App\Shared\Infrastructure\Service\Logger\LogMessage;
 

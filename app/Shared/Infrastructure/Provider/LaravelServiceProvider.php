@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Shared\Infrastructure\Provider;
 
-
 use App\Shared\Domain\Service\Bus\Command\CommandBus;
 use App\Shared\Domain\Service\Bus\Command\LaravelCommandBus;
 use App\Shared\Domain\Service\Bus\Query\LaravelQueryBus;

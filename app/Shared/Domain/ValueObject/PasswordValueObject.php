@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Shared\Domain\ValueObject;
 
-
 use App\Shared\Domain\Exception\InvalidArgumentException;
 
 /**
@@ -47,8 +46,7 @@ abstract class PasswordValueObject
         ?int   $minChars = null,
         ?int   $minUppercase = null,
         ?int   $minSymbols = null,
-    )
-    {
+    ) {
         $this->ensureIsValid(
             $value,
             $minLength,
@@ -91,7 +89,7 @@ abstract class PasswordValueObject
 
         foreach ($this->excludedChars as $char) {
             if (str_contains($value, $char)) {
-                throw new InvalidArgumentException("Password contains invalid characters.");
+                throw new InvalidArgumentException('Password contains invalid characters.');
             }
         }
     }
@@ -137,8 +135,7 @@ abstract class PasswordValueObject
         int    $minChars = 1,
         int    $minUppercase = 1,
         int    $minSymbols = 1
-    ): static
-    {
+    ): static {
         return new static($value, $minLength, $minChars, $minUppercase, $minSymbols);
     }
 }

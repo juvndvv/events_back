@@ -13,7 +13,7 @@ abstract class EnumValueObject
     protected function __construct($value)
     {
         if (!static::isValid($value)) {
-            throw new InvalidArgumentException("Invalid value for " . static::class);
+            throw new InvalidArgumentException('Invalid value for ' . static::class);
         }
 
         $this->value = $value;

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Shared\Infrastructure\Middleware;
 
-
 use App\Shared\Infrastructure\Service\Session\SessionTiming;
 use Closure;
 use Illuminate\Http\Request;
@@ -15,8 +14,7 @@ readonly class RequestTimingMiddleware
 {
     public function __construct(
         private SessionTiming $session,
-    )
-    {
+    ) {
     }
 
     /**

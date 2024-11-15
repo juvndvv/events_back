@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Shared\Infrastructure\Service\CurrencyExchange;
 
-
 use App\Shared\Domain\Exception\AppException;
 use App\Shared\Domain\Exception\InvalidArgumentException;
 use App\Shared\Domain\ValueObject\Currency;
@@ -24,7 +23,7 @@ class CurrencyExchangeService
             Cache::put('exchange_rates', $rates, 86400); // 24h
 
         } else {
-            throw new AppException("Failed to fetch exchange rates from the external API.");
+            throw new AppException('Failed to fetch exchange rates from the external API.');
         }
     }
 

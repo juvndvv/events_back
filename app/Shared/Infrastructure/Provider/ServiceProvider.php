@@ -2,7 +2,6 @@
 
 namespace App\Shared\Infrastructure\Provider;
 
-
 interface ServiceProvider
 {
     public function register(): void;
