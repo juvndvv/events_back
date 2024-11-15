@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Shared\Domain\Utils;
 
-use App\Shared\Domain\Exceptions\AppException;
+use App\Shared\Domain\Exception\AppException;
 
 /**
  * Abstract class `Optional`

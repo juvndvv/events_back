@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Shared\Infrastructure\Service\CurrencyExchange;
 
 
-use App\Shared\Domain\Exceptions\AppException;
-use App\Shared\Domain\Exceptions\InvalidArgumentException;
+use App\Shared\Domain\Exception\AppException;
+use App\Shared\Domain\Exception\InvalidArgumentException;
 use App\Shared\Domain\ValueObject\Currency;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;

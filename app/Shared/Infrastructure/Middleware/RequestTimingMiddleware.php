@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace App\Shared\Infrastructure\Middleware;
 
 
-use App\Shared\Infrastructure\Service\Session\Session;
+use App\Shared\Infrastructure\Service\Session\SessionTiming;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
-class RequestTimingMiddleware
+readonly class RequestTimingMiddleware
 {
     public function __construct(
-        private readonly Session $session
+        private SessionTiming $session,
     )
     {
     }
@@ -27,22 +28,31 @@ class RequestTimingMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Registrar la hora de inicio y el endpoint
+        DB::enableQueryLog();
+
         $this->session->setRequestStartTime();
         $this->session->setEndpoint($request->path());
         $this->session->setIpAddress($request->ip());
 
-        // Procesar la solicitud
         $response = $next($request);
 
-        // Registrar la hora de finalización
         $this->session->setRequestEndTime();
-
-        // Obtener la duración de la solicitud
-        $duration = $this->session->getRequestDuration();
+        $this->setQueryInfo();
 
         // TODO implementar que hacer con la session
 
         return $response;
+    }
+
+    private function setQueryInfo(): void
+    {
+        $queries = DB::getQueryLog();
+
+        $duration = 0;
+        foreach ($queries as $query) {
+            $duration += $query->time;
+        }
+
+        $this->session->setQueryDuration($duration);
     }
 }

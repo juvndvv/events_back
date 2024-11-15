@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Shared\Domain\Service\Validator;
 
 
-use App\Shared\Domain\Exceptions\LogicException;
-use App\Shared\Domain\Exceptions\ValidationException;
+use App\Shared\Domain\Exception\LogicException;
+use App\Shared\Domain\Exception\ValidationException;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
