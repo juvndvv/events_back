@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Infrastructure\Service\HttpClient;
+namespace App\Shared\Infrastructure\Http;
 
-enum Method
+enum HttpMethod
 {
     case GET;
     case POST;

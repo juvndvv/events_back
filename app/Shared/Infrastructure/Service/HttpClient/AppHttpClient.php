@@ -12,7 +12,7 @@ class AppHttpClient implements HttpClient
 {
     private Method $method = Method::GET;
     private string $uri = '';
-    private array $headers = [];
+    private array $headers =    [];
     private array $queryParams = [];
     private array $bodyParams = [];
 
